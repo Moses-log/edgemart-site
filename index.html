@@ -532,6 +532,60 @@
     ::-webkit-scrollbar { width: 4px; }
     ::-webkit-scrollbar-track { background: var(--bg); }
     ::-webkit-scrollbar-thumb { background: var(--border); }
+
+    /* ── IN DEVELOPMENT states ── */
+    .ch-dev { opacity: .45; pointer-events: none; }
+    .ch-wip { margin-left: auto; font-size: 9px; font-weight: 700; letter-spacing: 1px; color: var(--accent); }
+
+    .benefit-card.dev {
+      opacity: .45; pointer-events: none;
+      border-color: var(--border) !important;
+    }
+    .benefit-card.dev::before { display: none; }
+    .dev-badge {
+      display: inline-block; margin-top: 18px;
+      font-size: 9px; font-weight: 700; letter-spacing: 2px;
+      color: var(--accent); text-transform: uppercase;
+      border: 1px solid rgba(245,230,66,.25); padding: 3px 10px;
+    }
+
+    /* Education section "coming soon" wrap */
+    .edu-coming {
+      position: relative; margin-top: 56px;
+    }
+    .edu-coming-overlay {
+      position: absolute; inset: 0; z-index: 10;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      background: rgba(10,10,10,0.72);
+      backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px);
+    }
+    .edu-coming-badge {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: var(--bg2); border: 1px solid var(--border-y);
+      padding: 16px 32px; margin-bottom: 12px;
+    }
+    .edu-coming-badge .dot { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; animation: pulse-dot 2s ease-in-out infinite; }
+    .edu-coming-badge span { font-size: 13px; font-weight: 700; letter-spacing: 3px; color: var(--accent); text-transform: uppercase; }
+    .edu-coming-sub { font-size: 12px; color: var(--dim); letter-spacing: 1px; }
+    .edu-coming .edu-grid { opacity: .2; pointer-events: none; user-select: none; }
+
+    /* ── DISCLAIMER ── */
+    .disclaimer {
+      border-top: 1px solid var(--border);
+      background: var(--bg2);
+      padding: 72px 0;
+      position: relative; z-index: 2;
+    }
+    .disclaimer-inner { max-width: 820px; margin: 0 auto; padding: 0 32px; }
+    .disclaimer-title {
+      font-size: 10px; font-weight: 700; letter-spacing: 4px;
+      color: var(--accent); text-transform: uppercase; margin-bottom: 20px;
+    }
+    .disclaimer-body {
+      font-size: 12px; color: var(--dim); line-height: 1.85;
+    }
+    .disclaimer-body p + p { margin-top: 12px; }
+    .disclaimer-body strong { color: var(--muted); font-weight: 600; }
   </style>
 </head>
 <body>
@@ -714,11 +768,11 @@
         <div class="benefit-desc">Quarterly earnings analysis, sector breakdowns, macro context, and risk-reward setups. Understand the thesis behind every trade — not just the ticker.</div>
         <div class="benefit-tag">Earnings · Macro · Sector flows</div>
       </div>
-      <div class="benefit-card">
+      <div class="benefit-card dev">
         <div class="benefit-icon">🎓</div>
         <div class="benefit-title">Market Education</div>
         <div class="benefit-desc">Position sizing, risk management, trade journaling, and how to read market structure. Built for traders who want to improve, not just copy signals.</div>
-        <div class="benefit-tag">Trading fundamentals · Risk mgmt</div>
+        <div class="dev-badge">◆ In Development</div>
       </div>
       <div class="benefit-card">
         <div class="benefit-icon">👥</div>
@@ -849,76 +903,50 @@
       <h2>Learn to think like<br><em>a professional trader.</em></h2>
       <p>Signals are just the start. The real edge is understanding how and why a trade is made — then building that discipline yourself.</p>
     </div>
-    <div class="edu-grid stagger">
-      <div class="edu-card">
-        <div class="edu-num">01</div>
-        <div class="edu-title">Position Sizing & Risk Management</div>
-        <div class="edu-desc">Learn how to size positions based on conviction and account size. Why controlling risk per trade matters more than picking winners.</div>
+    <div class="edu-coming">
+      <div class="edu-coming-overlay">
+        <div class="edu-coming-badge">
+          <div class="dot"></div>
+          <span>In Development</span>
+        </div>
+        <div class="edu-coming-sub">Educational content is being built and will be available soon.</div>
       </div>
-      <div class="edu-card">
-        <div class="edu-num">02</div>
-        <div class="edu-title">Reading Market Structure</div>
-        <div class="edu-desc">Trend identification, support and resistance, volume interpretation. How to read what the market is telling you — not what pundits say.</div>
-      </div>
-      <div class="edu-card">
-        <div class="edu-num">03</div>
-        <div class="edu-title">Trade Journaling & Review</div>
-        <div class="edu-desc">Why every professional trader keeps a journal. How to analyze your own trades for patterns and stop repeating costly mistakes.</div>
-      </div>
-      <div class="edu-card">
-        <div class="edu-num">04</div>
-        <div class="edu-title">Long-Term Investing Thesis</div>
-        <div class="edu-desc">How to evaluate a stock for long-term holding — business quality, competitive moats, valuation, and what changes your conviction.</div>
-      </div>
-      <div class="edu-card">
-        <div class="edu-num">05</div>
-        <div class="edu-title">Trading Psychology</div>
-        <div class="edu-desc">Why most traders lose — fear, greed, FOMO, and overconfidence. How to build process and remove emotion from execution decisions.</div>
-      </div>
-      <div class="edu-card">
-        <div class="edu-num">06</div>
-        <div class="edu-title">Macro Economics for Traders</div>
-        <div class="edu-desc">Interest rates, inflation, sector rotation, and earnings cycles — the macro context behind every swing trade and long-term investment.</div>
+      <div class="edu-grid stagger">
+        <div class="edu-card">
+          <div class="edu-num">01</div>
+          <div class="edu-title">Position Sizing & Risk Management</div>
+          <div class="edu-desc">Learn how to size positions based on conviction and account size. Why controlling risk per trade matters more than picking winners.</div>
+        </div>
+        <div class="edu-card">
+          <div class="edu-num">02</div>
+          <div class="edu-title">Reading Market Structure</div>
+          <div class="edu-desc">Trend identification, support and resistance, volume interpretation. How to read what the market is telling you — not what pundits say.</div>
+        </div>
+        <div class="edu-card">
+          <div class="edu-num">03</div>
+          <div class="edu-title">Trade Journaling & Review</div>
+          <div class="edu-desc">Why every professional trader keeps a journal. How to analyze your own trades for patterns and stop repeating costly mistakes.</div>
+        </div>
+        <div class="edu-card">
+          <div class="edu-num">04</div>
+          <div class="edu-title">Long-Term Investing Thesis</div>
+          <div class="edu-desc">How to evaluate a stock for long-term holding — business quality, competitive moats, valuation, and what changes your conviction.</div>
+        </div>
+        <div class="edu-card">
+          <div class="edu-num">05</div>
+          <div class="edu-title">Trading Psychology</div>
+          <div class="edu-desc">Why most traders lose — fear, greed, FOMO, and overconfidence. How to build process and remove emotion from execution decisions.</div>
+        </div>
+        <div class="edu-card">
+          <div class="edu-num">06</div>
+          <div class="edu-title">Macro Economics for Traders</div>
+          <div class="edu-desc">Interest rates, inflation, sector rotation, and earnings cycles — the macro context behind every swing trade and long-term investment.</div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ── TESTIMONIALS ───────────────────────────────────────────────────── -->
-<section class="testimonials" id="testimonials">
-  <div class="wrap">
-    <div class="sec-hdr fade-up">
-      <p class="eyebrow">What Members Say</p>
-      <h2>Trusted by disciplined<br><em>investors.</em></h2>
-    </div>
-    <div class="testi-grid stagger">
-      <div class="testi-card">
-        <div class="stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
-        <div class="testi-text">"The transparency is what got me. They post every loss right next to every win. That kind of honesty is rare in this space — and it makes the signal feed actually trustworthy."</div>
-        <div class="testi-author">
-          <div class="t-avatar">MK</div>
-          <div><div class="t-name">Michael K.</div><div class="t-role">Swing Trader · 2 years</div></div>
-        </div>
-      </div>
-      <div class="testi-card">
-        <div class="stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
-        <div class="testi-text">"I've learned more about discipline and risk management in 3 months here than in 3 years of solo trading. The research breakdowns are genuinely educational, not just signals."</div>
-        <div class="testi-author">
-          <div class="t-avatar">SR</div>
-          <div><div class="t-name">Sarah R.</div><div class="t-role">Long-term investor · Member since 2025</div></div>
-        </div>
-      </div>
-      <div class="testi-card">
-        <div class="stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
-        <div class="testi-text">"Watching how the AI sizes positions and rebalances over time has completely changed how I think about long-term portfolio construction. Worth it for that alone."</div>
-        <div class="testi-author">
-          <div class="t-avatar">DJ</div>
-          <div><div class="t-name">David J.</div><div class="t-role">Portfolio investor · 5 years experience</div></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
 
 <!-- ── DISCORD COMMUNITY PREVIEW ─────────────────────────────────────── -->
 <section class="community" id="community">
@@ -929,12 +957,12 @@
         <h3>A private server built for serious traders.</h3>
         <p>No noise. No pump-and-dump. Just a focused community of disciplined traders sharing research, signals, and market insights in real time.</p>
         <div class="channel-list">
-          <div class="ch"><span class="ch-hash">#</span><span>spy-live-signals</span><span class="ch-live">● LIVE</span></div>
-          <div class="ch"><span class="ch-hash">#</span><span>portfolio-manager-signals</span><span class="ch-live">● LIVE</span></div>
-          <div class="ch"><span class="ch-hash">#</span><span>market-research</span></div>
-          <div class="ch"><span class="ch-hash">#</span><span>earnings-analysis</span></div>
-          <div class="ch"><span class="ch-hash">#</span><span>general-discussion</span></div>
-          <div class="ch"><span class="ch-hash">#</span><span>education-resources</span></div>
+          <div class="ch"><span class="ch-hash">#</span><span>『🔁』kimi-trades</span><span class="ch-live">● LIVE</span></div>
+          <div class="ch"><span class="ch-hash">#</span><span>『📈』kimi-investments</span><span class="ch-live">● LIVE</span></div>
+          <div class="ch"><span class="ch-hash">#</span><span>『💬』general</span></div>
+          <div class="ch ch-dev"><span class="ch-hash">#</span><span>market-research</span><span class="ch-wip">◆ IN DEVELOPMENT</span></div>
+          <div class="ch ch-dev"><span class="ch-hash">#</span><span>earnings-analysis</span><span class="ch-wip">◆ IN DEVELOPMENT</span></div>
+          <div class="ch ch-dev"><span class="ch-hash">#</span><span>education-resources</span><span class="ch-wip">◆ IN DEVELOPMENT</span></div>
         </div>
       </div>
 
@@ -942,7 +970,7 @@
         <div class="discord-mock">
           <div class="discord-top">
             <span class="d-hash">#</span>
-            <span class="d-ch-name">spy-live-signals</span>
+            <span class="d-ch-name">『🔁』kimi-trades</span>
           </div>
           <div class="discord-msgs">
             <div class="dm">
@@ -993,7 +1021,7 @@
 
       <div class="faq-item">
         <button class="faq-q" onclick="toggleFAQ(this)">What is Kimi Invest?<span class="faq-icon">+</span></button>
-        <div class="faq-a"><div class="faq-a-inner">Kimi Invest is a private Discord community focused on disciplined stock market investing and swing trading. Members receive live trading signals from two strategies: the SPY Strategy (short-term swing trades via Alpaca) and the Kimi Portfolio Manager (an AI-driven long-term equity portfolio). All trades are executed with real money and posted transparently.</div></div>
+        <div class="faq-a"><div class="faq-a-inner">Kimi Invest is a private Discord community focused on disciplined stock market investing and swing trading. It was co-founded by <strong style="color:var(--white)">Moses Lieu</strong> — the developer behind the Kimi trading system and Discord infrastructure — and <strong style="color:var(--white)">Gabe Pedracio</strong>, Chief Marketing Officer. Members receive live trading signals from two strategies: the SPY Strategy (short-term swing trades via Alpaca) and the Kimi Portfolio Manager (an AI-driven long-term equity portfolio). All trades are executed with real money and posted transparently.</div></div>
       </div>
 
       <div class="faq-item">
@@ -1055,6 +1083,22 @@
 
     <a href="https://whop.com/kimiinvest/kimi-invest-premium-early-access/" class="btn-large">Join Kimi Invest →</a>
     <div class="cancel-note">Cancel anytime. No commitment.</div>
+  </div>
+</section>
+
+<!-- ── DISCLAIMER ─────────────────────────────────────────────────────── -->
+<section class="disclaimer" id="disclaimer">
+  <div class="disclaimer-inner">
+    <div class="disclaimer-title">Important Disclaimers &amp; Risk Disclosure</div>
+    <div class="disclaimer-body">
+      <p><strong>Not Financial Advice.</strong> All content published on this website and within the Kimi Invest Discord server — including trade signals, portfolio updates, market commentary, educational material, and any other communications — is provided for <strong>informational and educational purposes only</strong>. Nothing on this platform constitutes financial, investment, legal, or tax advice. Kimi Invest is not a registered investment advisor, broker-dealer, or financial institution. No content should be interpreted as a recommendation to buy, sell, or hold any security or financial instrument.</p>
+      <p><strong>Past Performance.</strong> All trade results, win rates, profit factors, and performance metrics displayed on this site reflect historical results of real trades executed with real money. <strong>Past performance is not indicative of future results.</strong> There is no guarantee that any strategy, signal, or approach discussed or demonstrated will produce similar results in the future. Trading and investing involve substantial risk, including the possibility of losing all capital invested.</p>
+      <p><strong>Risk of Loss.</strong> Trading stocks, ETFs, and other financial instruments involves significant risk. Market conditions can change rapidly and unpredictably. You may lose some or all of your invested capital. Only trade or invest with money you can afford to lose entirely. Never invest borrowed funds or money required for essential living expenses.</p>
+      <p><strong>Independent Decision-Making.</strong> All trading and investment decisions are your own sole responsibility. Kimi Invest, its founders, employees, and affiliates are not responsible for any financial losses you may incur as a result of actions taken based on information provided through this platform. You are solely responsible for conducting your own due diligence and consulting with a qualified, licensed financial advisor before making any investment decision.</p>
+      <p><strong>No Fiduciary Relationship.</strong> Subscribing to Kimi Invest does not create a fiduciary relationship, advisory relationship, or any professional financial relationship between you and Kimi Invest or its founders. The information shared is offered on an "as-is" basis without warranty of any kind.</p>
+      <p><strong>Affiliate &amp; Broker Disclosure.</strong> Trades referenced on this platform are executed through third-party brokers including Alpaca Securities and Robinhood Financial. Kimi Invest has no financial affiliation with these brokers and receives no compensation for their use. All trade data is presented as-is from live brokerage accounts.</p>
+      <p><strong>Forward-Looking Statements.</strong> Any statements regarding potential future performance, strategies under development, or features described as "coming soon" or "in development" are forward-looking in nature and subject to change without notice. No guarantee is made that any planned feature or strategy will be implemented or will perform as described.</p>
+    </div>
   </div>
 </section>
 
