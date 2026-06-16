@@ -26,6 +26,25 @@
     }
     .container { max-width: 960px; margin: 0 auto; padding: 72px 24px; }
 
+    /* ── Nav ────────────────────────────────────────────────────────────── */
+    .top-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 56px;
+    }
+    .top-nav .logo-mark { display: flex; align-items: center; gap: 10px; }
+    .top-nav .logo-mark img { height: 36px; width: 36px; object-fit: contain; }
+    .top-nav .logo-mark span {
+      font-size: 14px; font-weight: 900; letter-spacing: 3px; color: var(--white);
+    }
+    .top-nav .nav-links { display: flex; gap: 28px; }
+    .top-nav .nav-links a {
+      color: var(--muted); font-size: 12px; font-weight: 700;
+      letter-spacing: 2px; text-decoration: none;
+    }
+    .top-nav .nav-links a:hover { color: var(--cyan); }
+
     /* ── Hero ───────────────────────────────────────────────────────────── */
     .hero { text-align: center; margin-bottom: 60px; }
     .hero .eyebrow {
@@ -234,6 +253,84 @@
     }
     .cancel { font-size: 12px; color: var(--muted); }
 
+    /* ── Claude Section ─────────────────────────────────────────────────── */
+    .claude-section {
+      padding: 72px 0 80px;
+      border-top: 1px solid var(--border);
+    }
+    .claude-header { text-align: center; margin-bottom: 48px; }
+    .claude-header .eyebrow {
+      font-size: 11px; font-weight: 700; letter-spacing: 5px;
+      color: var(--cyan); margin-bottom: 16px;
+    }
+    .claude-header h2 {
+      font-size: clamp(28px, 5vw, 44px);
+      font-weight: 900; letter-spacing: -1.5px; line-height: 1.05;
+      margin-bottom: 16px;
+    }
+    .claude-header h2 em { font-style: normal; color: var(--cyan); }
+    .claude-header .desc {
+      color: var(--muted); font-size: 15px; line-height: 1.7;
+      max-width: 580px; margin: 0 auto;
+    }
+
+    .claude-body {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      margin-bottom: 44px;
+    }
+    @media (max-width: 640px) { .claude-body { grid-template-columns: 1fr; } }
+
+    .claude-how {
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: 28px;
+    }
+    .claude-how h3 {
+      font-size: 13px; font-weight: 700; letter-spacing: 2px;
+      color: var(--cyan); margin-bottom: 16px;
+    }
+    .claude-how p {
+      font-size: 14px; color: var(--muted); line-height: 1.7;
+    }
+    .claude-how p + p { margin-top: 12px; }
+    .claude-how .hl { color: var(--white); font-weight: 600; }
+
+    .signal-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .signal-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: 20px;
+    }
+    .signal-card .sig-icon { font-size: 22px; margin-bottom: 8px; }
+    .signal-card .sig-name {
+      font-size: 12px; font-weight: 700; letter-spacing: 2px;
+      color: var(--white); margin-bottom: 6px;
+    }
+    .signal-card .sig-desc { font-size: 13px; color: var(--muted); line-height: 1.5; }
+    .signal-card.buy   { border-color: rgba(0,229,200,.25); }
+    .signal-card.dd    { border-color: rgba(255,180,0,.2); }
+    .signal-card.trim  { border-color: rgba(255,144,96,.2); }
+    .signal-card.sell  { border-color: rgba(255,77,77,.2); }
+
+    .claude-cta-row {
+      display: flex; justify-content: center; gap: 16px; flex-wrap: wrap;
+    }
+    .btn-ghost {
+      display: inline-block;
+      border: 1px solid var(--cyan);
+      color: var(--cyan);
+      font-size: 12px; font-weight: 700; letter-spacing: 3px;
+      padding: 14px 36px; text-decoration: none;
+      transition: background .15s, color .15s;
+    }
+    .btn-ghost:hover { background: var(--cyan); color: #041009; }
+
     /* ── Footer ─────────────────────────────────────────────────────────── */
     footer {
       border-top: 1px solid var(--border);
@@ -251,6 +348,18 @@
 </head>
 <body>
 <div class="container">
+
+  <!-- Nav -->
+  <nav class="top-nav">
+    <div class="logo-mark">
+      <img src="logo.png" alt="Edgemart">
+      <span>EDGEMART</span>
+    </div>
+    <div class="nav-links">
+      <a href="trades.html">TRADE LOG</a>
+      <a href="portfolio.html">PORTFOLIO</a>
+    </div>
+  </nav>
 
   <!-- Hero -->
   <section class="hero">
@@ -304,6 +413,66 @@
   </section>
 
   <p class="summary" id="summary">&nbsp;</p>
+
+  <!-- Claude Strategy Section -->
+  <section class="claude-section">
+    <div class="claude-header">
+      <p class="eyebrow">CLAUDE PORTFOLIO MANAGER</p>
+      <h2>A second strategy.<br><em>Powered by AI.</em></h2>
+      <p class="desc">
+        Running alongside the SPY system, an autonomous Claude AI manages a separate
+        long-term equity portfolio — selecting stocks, sizing positions, and rebalancing
+        as conditions evolve. Every move fires a live signal to members.
+      </p>
+    </div>
+
+    <div class="claude-body">
+      <div class="claude-how">
+        <h3>HOW IT WORKS</h3>
+        <p>
+          Claude — Anthropic&rsquo;s most capable AI model — reads live market data, portfolio
+          weights, and macroeconomic context, then decides when to enter, exit, or adjust
+          each long-term position. Trades execute directly on <span class="hl">Alpaca</span>, verified and timestamped.
+        </p>
+        <p>
+          Unlike short-term SPY trading, this strategy holds positions for weeks to months.
+          Each stock is assigned a <span class="hl">target portfolio weight</span>, and Claude rebalances
+          when conviction changes — adding on strength, trimming when targets are reached, or
+          cutting losses cleanly when the thesis breaks.
+        </p>
+        <p>
+          No human intervenes between decision and execution. <span class="hl">The signal you see is the trade.</span>
+        </p>
+      </div>
+
+      <div class="signal-grid">
+        <div class="signal-card buy">
+          <div class="sig-icon">🟢</div>
+          <div class="sig-name">BUY</div>
+          <div class="sig-desc">Claude opens a new long-term position in a high-conviction stock.</div>
+        </div>
+        <div class="signal-card dd">
+          <div class="sig-icon">🔥</div>
+          <div class="sig-name">DOUBLE DOWN</div>
+          <div class="sig-desc">Claude adds to an existing position — the thesis just got stronger.</div>
+        </div>
+        <div class="signal-card trim">
+          <div class="sig-icon">✂️</div>
+          <div class="sig-name">TRIM</div>
+          <div class="sig-desc">Claude scales back a position that has outgrown its target weight.</div>
+        </div>
+        <div class="signal-card sell">
+          <div class="sig-icon">🔴</div>
+          <div class="sig-name">SELL</div>
+          <div class="sig-desc">Claude exits a position fully — thesis broken or target reached.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="claude-cta-row">
+      <a href="portfolio.html" class="btn-ghost">VIEW PORTFOLIO CALLOUTS &rarr;</a>
+    </div>
+  </section>
 
   <!-- CTA -->
   <section class="cta">
