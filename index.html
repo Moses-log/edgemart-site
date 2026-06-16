@@ -3,533 +3,1164 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kimi Invest — SPY Trading Signals</title>
+  <title>Kimi Invest — Elite Trading Community</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <style>
     :root {
-      --bg:      #000000;
-      --card:    #0e0e09;
-      --border:  #2a2500;
-      --cyan:    #FFE000;
+      --bg:      #0A0A0A;
+      --bg2:     #161616;
+      --bg3:     #1C1C1C;
+      --border:  #2A2A2A;
+      --border-y: rgba(245,230,66,0.22);
+      --accent:  #F5E642;
+      --adim:    rgba(245,230,66,0.07);
+      --aglow:   rgba(245,230,66,0.38);
+      --white:   #FFFFFF;
+      --text:    #E8E8E8;
+      --muted:   #B0B0B0;
+      --dim:     #6B6B6B;
       --green:   #00C853;
-      --red:     #ff4d4d;
-      --white:   #ffffff;
-      --muted:   #7a7050;
-      --win-bg:  rgba(0, 200, 83, 0.05);
-      --loss-bg: rgba(255, 77, 77, 0.05);
+      --red:     #FF4D4D;
+      --win-bg:  rgba(0,200,83,0.05);
+      --loss-bg: rgba(255,77,77,0.05);
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
     body {
       background: var(--bg);
-      color: var(--white);
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
+      color: var(--text);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       -webkit-font-smoothing: antialiased;
-    }
-    .container { max-width: 960px; margin: 0 auto; padding: 72px 24px; }
-
-    /* ── Nav ────────────────────────────────────────────────────────────── */
-    .top-nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 56px;
-    }
-    .top-nav .logo-mark { display: flex; align-items: center; gap: 10px; }
-    .top-nav .logo-mark img { height: 36px; width: 36px; object-fit: contain; }
-    .top-nav .logo-mark span {
-      font-size: 14px; font-weight: 900; letter-spacing: 3px; color: var(--white);
-    }
-    .top-nav .nav-links { display: flex; gap: 28px; }
-    .top-nav .nav-links a {
-      color: var(--muted); font-size: 12px; font-weight: 700;
-      letter-spacing: 2px; text-decoration: none;
-    }
-    .top-nav .nav-links a:hover { color: var(--cyan); }
-
-    /* ── Hero ───────────────────────────────────────────────────────────── */
-    .hero { text-align: center; margin-bottom: 60px; }
-    .hero .eyebrow {
-      color: var(--cyan);
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 5px;
-      margin-bottom: 20px;
-    }
-    .hero h1 {
-      font-size: clamp(56px, 11vw, 108px);
-      font-weight: 900;
-      letter-spacing: -3px;
-      line-height: 0.92;
-      margin-bottom: 22px;
-    }
-    .hero .sub { color: var(--muted); font-size: 14px; }
-
-    /* ── Stats ──────────────────────────────────────────────────────────── */
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-      margin-bottom: 32px;
-    }
-    .stat-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      padding: 20px 24px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .stat-label { font-size: 11px; font-weight: 700; letter-spacing: 2px; color: var(--muted); }
-    .stat-value { font-size: 36px; font-weight: 800; }
-    .stat-value.cyan { color: var(--cyan); }
-
-    /* ── Chart ──────────────────────────────────────────────────────────── */
-    .chart-wrap { position: relative; height: 280px; margin-bottom: 12px; }
-    .chart-note {
-      text-align: center;
-      color: var(--cyan);
-      font-size: 12px;
-      font-weight: 600;
-      letter-spacing: 1px;
-      margin-bottom: 64px;
+      overflow-x: hidden;
     }
 
-    /* ── Trade Log ──────────────────────────────────────────────────────── */
-    .trade-log { margin-bottom: 0; }
-    .section-label {
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 4px;
-      color: var(--cyan);
-      text-align: center;
-      margin-bottom: 6px;
+    /* ── Background canvas ── */
+    #bg-canvas {
+      position: fixed; top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none; z-index: 0;
     }
-    .section-sub {
-      text-align: center;
-      color: var(--muted);
-      font-size: 13px;
-      margin-bottom: 20px;
+    #spotlight {
+      position: fixed; top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none; z-index: 1;
+      background: radial-gradient(700px circle at var(--mx,50%) var(--my,50%), rgba(245,230,66,0.025), transparent 70%);
+      transition: background 0.1s;
     }
-    .table-wrap { border: 1px solid var(--border); overflow: hidden; }
-    table { width: 100%; border-collapse: collapse; font-size: 14px; }
-    thead th {
-      background: var(--card);
-      padding: 12px 16px;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 2px;
-      color: var(--muted);
+
+    /* ── Layout ── */
+    .wrap  { max-width: 1160px; margin: 0 auto; padding: 0 32px; position: relative; z-index: 2; }
+    .wrap--sm { max-width: 820px; margin: 0 auto; padding: 0 32px; position: relative; z-index: 2; }
+    section { position: relative; z-index: 2; }
+
+    .eyebrow {
+      display: inline-block;
+      font-size: 10px; font-weight: 700; letter-spacing: 4px;
+      color: var(--accent); text-transform: uppercase; margin-bottom: 18px;
+    }
+
+    /* ── NAV ── */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+      background: rgba(10,10,10,0.88);
       border-bottom: 1px solid var(--border);
-      text-align: left;
+    }
+    .nav-inner {
+      max-width: 1160px; margin: 0 auto; padding: 0 32px;
+      height: 64px; display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+    .nav-logo img { height: 30px; width: 30px; object-fit: contain; }
+    .nav-logo span { font-size: 12px; font-weight: 800; letter-spacing: 3px; color: var(--white); }
+    .nav-links { display: flex; align-items: center; gap: 28px; }
+    .nav-links a {
+      color: var(--dim); font-size: 11px; font-weight: 600;
+      letter-spacing: 1.5px; text-decoration: none; text-transform: uppercase; transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+    .nav-cta {
+      background: var(--accent); color: #0A0800;
+      font-size: 11px; font-weight: 800; letter-spacing: 2px;
+      padding: 10px 22px; text-decoration: none; text-transform: uppercase;
+      transition: opacity .2s, box-shadow .2s;
+    }
+    .nav-cta:hover { opacity: .88; box-shadow: 0 0 22px var(--aglow); }
+    @media (max-width: 780px) {
+      .nav-links a:not(.nav-cta):not(:last-of-type) { display: none; }
+    }
+
+    /* ── HERO ── */
+    .hero {
+      padding: 148px 0 110px;
+      min-height: 100vh; display: flex; align-items: center;
+    }
+    .hero-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+    }
+    @media (max-width: 860px) { .hero-grid { grid-template-columns: 1fr; gap: 56px; } .hero { padding: 120px 0 80px; } }
+
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 9px;
+      background: rgba(245,230,66,0.09); border: 1px solid var(--border-y);
+      color: var(--accent); font-size: 10px; font-weight: 700; letter-spacing: 3px;
+      padding: 8px 16px; margin-bottom: 28px; text-transform: uppercase;
+    }
+    .hero-badge::before {
+      content: ''; width: 6px; height: 6px; background: var(--accent);
+      border-radius: 50%; animation: pulse-dot 2s ease-in-out infinite;
+    }
+    @keyframes pulse-dot { 0%,100% { opacity:1; transform:scale(1); } 50% { opacity:.4; transform:scale(.7); } }
+
+    .hero h1 {
+      font-size: clamp(38px, 5.5vw, 68px); font-weight: 900;
+      letter-spacing: -2.5px; line-height: 1.0; color: var(--white); margin-bottom: 22px;
+    }
+    .hero h1 .acc { color: var(--accent); }
+    .hero-sub {
+      font-size: 16px; color: var(--muted); line-height: 1.75;
+      max-width: 460px; margin-bottom: 40px;
+    }
+    .hero-live { font-size: 12px; color: var(--dim); margin-bottom: 36px; font-weight: 500; }
+    .hero-ctas { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 48px; }
+
+    .btn-primary {
+      display: inline-block; background: var(--accent); color: #0A0800;
+      font-size: 12px; font-weight: 800; letter-spacing: 2px;
+      padding: 17px 40px; text-decoration: none; text-transform: uppercase;
+      transition: opacity .2s, box-shadow .2s;
+      animation: btn-glow 3s ease-in-out infinite;
+    }
+    .btn-primary:hover { opacity:.88; animation:none; box-shadow:0 0 40px var(--aglow); }
+    @keyframes btn-glow { 0%,100%{box-shadow:0 0 0 transparent;} 50%{box-shadow:0 0 28px rgba(245,230,66,.32);} }
+
+    .btn-outline {
+      display: inline-block; border: 1px solid var(--border); color: var(--muted);
+      font-size: 12px; font-weight: 600; letter-spacing: 2px;
+      padding: 17px 32px; text-decoration: none; text-transform: uppercase;
+      transition: border-color .2s, color .2s;
+    }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+
+    .hero-trust { display: flex; gap: 24px; flex-wrap: wrap; }
+    .trust-item { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--dim); }
+    .trust-item .dot { color: var(--accent); }
+
+    /* Hero right: floating cards */
+    .hero-visual { position: relative; height: 480px; }
+    @media (max-width: 860px) { .hero-visual { display: none; } }
+
+    .hero-chart-bg {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%,-50%);
+      width: 400px; height: 220px; opacity: .15; pointer-events: none;
+    }
+
+    .float-card {
+      position: absolute;
+      background: rgba(22,22,22,0.92);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--border); padding: 20px 24px;
+    }
+    .float-card:nth-child(1) { top: 32px;   right: 0;    width: 210px; animation: fc-float 7s ease-in-out infinite 0s; }
+    .float-card:nth-child(2) { top: 155px;  left: 10px;  width: 195px; animation: fc-float 6s ease-in-out infinite 2s; }
+    .float-card:nth-child(3) { bottom: 110px; right: 20px; width: 200px; animation: fc-float 8s ease-in-out infinite 4s; }
+    .float-card:nth-child(4) { bottom: 50px;  left: 30px;  width: 188px; animation: fc-float 5.5s ease-in-out infinite 1s; }
+    @keyframes fc-float { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-10px);} }
+
+    .fc-label { font-size: 9px; font-weight: 700; letter-spacing: 2px; color: var(--dim); text-transform: uppercase; margin-bottom: 8px; }
+    .fc-val { font-size: 26px; font-weight: 800; color: var(--white); margin-bottom: 4px; letter-spacing: -0.5px; }
+    .fc-val.acc { color: var(--accent); }
+    .fc-val.grn { color: var(--green); }
+    .fc-sub { font-size: 10px; color: var(--dim); }
+    .fc-tag {
+      display: inline-block; margin-top: 10px;
+      font-size: 9px; font-weight: 800; letter-spacing: 1.5px; padding: 3px 8px;
+    }
+    .fc-tag.y { background: rgba(245,230,66,.1); color: var(--accent); }
+    .fc-tag.g { background: rgba(0,200,83,.1); color: var(--green); }
+    .fc-tag.r { background: rgba(255,77,77,.1); color: var(--red); }
+
+    /* ── STATS STRIP ── */
+    .stats-strip { border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); background: var(--bg2); position: relative; z-index: 2; }
+    .strip-grid { display: grid; grid-template-columns: repeat(4,1fr); }
+    .strip-stat {
+      padding: 30px 36px; border-right: 1px solid var(--border);
+      text-align: center; transition: background .25s;
+    }
+    .strip-stat:last-child { border-right: none; }
+    .strip-stat:hover { background: var(--bg3); }
+    .strip-label { font-size: 9px; font-weight: 700; letter-spacing: 3px; color: var(--dim); text-transform: uppercase; margin-bottom: 10px; }
+    .strip-val { font-size: 38px; font-weight: 800; color: var(--white); letter-spacing: -1px; margin-bottom: 4px; font-variant-numeric: tabular-nums; }
+    .strip-val.acc { color: var(--accent); }
+    .strip-sub { font-size: 11px; color: var(--dim); }
+    @media (max-width: 680px) {
+      .strip-grid { grid-template-columns: repeat(2,1fr); }
+      .strip-stat:nth-child(2) { border-right: none; }
+      .strip-stat:nth-child(3) { border-top: 1px solid var(--border); }
+      .strip-stat:nth-child(4) { border-top: 1px solid var(--border); border-right: none; }
+    }
+
+    /* ── SECTION HEADER ── */
+    .sec-hdr { text-align: center; margin-bottom: 60px; }
+    .sec-hdr h2 {
+      font-size: clamp(30px, 4vw, 50px); font-weight: 900;
+      letter-spacing: -2px; color: var(--white); line-height: 1.05; margin-bottom: 14px;
+    }
+    .sec-hdr h2 em { font-style: normal; color: var(--accent); }
+    .sec-hdr p { font-size: 15px; color: var(--muted); line-height: 1.75; max-width: 520px; margin: 0 auto; }
+
+    /* ── PERFORMANCE ── */
+    .performance { padding: 110px 0; }
+
+    .chart-card {
+      background: var(--bg2); border: 1px solid var(--border);
+      padding: 32px; margin-bottom: 2px; position: relative; overflow: hidden;
+    }
+    .chart-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    }
+    .chart-hdr {
+      display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 28px;
+    }
+    .chart-title { font-size: 11px; font-weight: 700; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; }
+    .chart-note  { font-size: 11px; color: var(--dim); margin-top: 5px; }
+    .chart-wrap  { position: relative; height: 290px; }
+
+    .table-card { background: var(--bg2); border: 1px solid var(--border); overflow: hidden; }
+    .table-hdr {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 18px 24px; border-bottom: 1px solid var(--border);
+    }
+    .table-title { font-size: 11px; font-weight: 700; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; }
+    .view-all {
+      color: var(--accent); font-size: 11px; font-weight: 700;
+      letter-spacing: 2px; text-decoration: none; text-transform: uppercase;
+    }
+    .view-all:hover { opacity: .75; }
+
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    thead th {
+      padding: 11px 20px; font-size: 9px; font-weight: 700; letter-spacing: 2px;
+      color: var(--dim); border-bottom: 1px solid var(--border);
+      text-align: left; text-transform: uppercase;
     }
     thead th.r  { text-align: right; }
-    thead th.hl { color: var(--cyan); }
-    tbody tr { border-bottom: 1px solid rgba(30,45,61,0.6); }
+    thead th.hl { color: var(--accent); }
+    tbody tr { border-bottom: 1px solid rgba(42,42,42,.5); transition: background .15s; }
     tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background: var(--bg3); }
     tbody tr.win  { background: var(--win-bg); }
     tbody tr.loss { background: var(--loss-bg); }
-    td { padding: 11px 16px; font-variant-numeric: tabular-nums; }
-    td.num  { color: var(--muted); font-size: 12px; width: 44px; }
-    td.r    { text-align: right; }
-    td.cyan { color: var(--green); font-weight: 700; text-align: right; }
-    td.red  { color: var(--red);  font-weight: 700; text-align: right; }
-    td.win-badge  { color: var(--green); font-weight: 800; font-size: 12px; letter-spacing: 1px; text-align: right; }
-    td.loss-badge { color: var(--red);   font-weight: 800; font-size: 12px; letter-spacing: 1px; text-align: right; }
+    td { padding: 13px 20px; font-variant-numeric: tabular-nums; }
+    td.num { color: var(--dim); font-size: 11px; width: 44px; }
+    td.r   { text-align: right; }
+    td.grn { color: var(--green); font-weight: 700; text-align: right; }
+    td.red { color: var(--red);   font-weight: 700; text-align: right; }
+    td.win-badge, td.loss-badge { text-align: right; }
+    td.win-badge  span { background: rgba(0,200,83,.12);  color: var(--green); font-size: 9px;  font-weight: 800; letter-spacing: 1.5px; padding: 4px 10px; }
+    td.loss-badge span { background: rgba(255,77,77,.12); color: var(--red);   font-size: 9px;  font-weight: 800; letter-spacing: 1.5px; padding: 4px 10px; }
+    @media (max-width: 600px) { thead th.hide, td.hide { display: none; } }
 
-    .summary {
-      text-align: center;
-      font-size: 15px;
-      font-weight: 700;
-      padding: 28px 0 72px;
-      color: var(--white);
-      border-bottom: 1px solid var(--border);
+    .summary-bar {
+      display: flex; justify-content: center; gap: 28px; flex-wrap: wrap;
+      padding: 22px 24px; background: var(--bg2);
+      border: 1px solid var(--border); border-top: none;
     }
-    .summary .c { color: var(--cyan); }
+    .sum-item { font-size: 13px; color: var(--muted); }
+    .sum-item .acc { color: var(--accent); font-weight: 700; }
 
-    /* ── CTA ────────────────────────────────────────────────────────────── */
-    .cta { padding: 80px 0 88px; text-align: center; }
+    /* ── BENEFITS ── */
+    .benefits { padding: 110px 0; background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .benefits-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 2px; margin-top: 56px; }
+    @media (max-width: 768px) { .benefits-grid { grid-template-columns: 1fr; } }
 
-    .cta-eyebrow {
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 5px;
-      color: var(--cyan);
-      margin-bottom: 20px;
+    .benefit-card {
+      background: var(--bg); border: 1px solid var(--border);
+      padding: 44px 32px; position: relative; overflow: hidden;
+      transition: border-color .3s;
     }
-    .cta-headline {
-      font-size: clamp(30px, 5vw, 48px);
-      font-weight: 900;
-      letter-spacing: -1px;
-      line-height: 1.1;
-      margin-bottom: 14px;
+    .benefit-card::before {
+      content: ''; position: absolute; top: 0; left: 0;
+      width: 100%; height: 2px; background: var(--accent);
+      transform: scaleX(0); transform-origin: left; transition: transform .3s;
     }
-    .cta-headline em { font-style: normal; color: var(--cyan); }
-    .cta-sub {
-      color: var(--muted);
-      font-size: 15px;
-      max-width: 480px;
-      margin: 0 auto 44px;
-      line-height: 1.6;
+    .benefit-card:hover::before  { transform: scaleX(1); }
+    .benefit-card:hover { border-color: var(--border-y); }
+    .benefit-icon {
+      width: 46px; height: 46px; background: var(--adim); border: 1px solid var(--border-y);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; margin-bottom: 24px;
     }
-    .cta-sub strong { color: var(--white); }
+    .benefit-title { font-size: 16px; font-weight: 700; color: var(--white); margin-bottom: 12px; }
+    .benefit-desc  { font-size: 13px; color: var(--muted); line-height: 1.75; }
+    .benefit-tag   { display: inline-block; margin-top: 18px; font-size: 9px; font-weight: 700; letter-spacing: 2px; color: var(--accent); text-transform: uppercase; }
 
-    .value-list {
-      display: inline-flex;
-      flex-direction: column;
-      gap: 14px;
-      text-align: left;
-      margin-bottom: 52px;
+    /* ── RESEARCH ── */
+    .research { padding: 110px 0; border-top: 1px solid var(--border); }
+    .research-grid { display: grid; grid-template-columns: 1fr 2fr; gap: 80px; align-items: start; }
+    @media (max-width: 860px) { .research-grid { grid-template-columns: 1fr; gap: 44px; } }
+    .research-left h3 { font-size: 28px; font-weight: 800; letter-spacing: -1px; color: var(--white); line-height: 1.2; margin-bottom: 16px; }
+    .research-left p  { font-size: 14px; color: var(--muted); line-height: 1.75; }
+    .research-items { display: flex; flex-direction: column; gap: 3px; }
+    .ri {
+      background: var(--bg2); border: 1px solid var(--border);
+      padding: 24px 28px; display: flex; gap: 18px; align-items: flex-start;
+      transition: border-color .25s;
     }
-    .value-list li {
-      list-style: none;
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
-      font-size: 15px;
-      color: var(--muted);
-      line-height: 1.45;
-    }
-    .value-list li .chk { color: var(--cyan); font-size: 16px; flex-shrink: 0; }
-    .value-list li strong { color: var(--white); }
+    .ri:hover { border-color: var(--border-y); }
+    .ri-num { font-size: 10px; font-weight: 800; color: var(--accent); letter-spacing: 1px; min-width: 24px; padding-top: 2px; }
+    .ri-title { font-size: 14px; font-weight: 700; color: var(--white); margin-bottom: 5px; }
+    .ri-desc  { font-size: 12px; color: var(--muted); line-height: 1.65; }
 
-    /* spots */
-    .spots-wrap { margin-bottom: 44px; }
-    .spots-count {
-      font-size: 18px;
-      font-weight: 700;
-      color: var(--cyan);
-      letter-spacing: 1px;
-      margin-bottom: 12px;
+    /* ── AI SECTION ── */
+    .ai-section { padding: 110px 0; background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); position: relative; }
+    .ai-section::before {
+      content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+      width: 1px; height: 64px; background: linear-gradient(to bottom, var(--accent), transparent);
     }
-    .progress-track {
-      width: 280px;
-      height: 5px;
-      background: var(--card);
-      border: 1px solid var(--border);
-      margin: 0 auto 10px;
-      overflow: hidden;
-    }
-    .progress-fill {
-      height: 100%;
-      background: var(--cyan);
-      width: 0%;
-      transition: width .8s ease;
-    }
-    .spots-note { font-size: 12px; color: var(--muted); }
+    .ai-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: start; margin-top: 60px; }
+    @media (max-width: 860px) { .ai-inner { grid-template-columns: 1fr; gap: 44px; } }
 
-    /* price + button */
-    .price-row {
-      margin-bottom: 32px;
+    .ai-how {
+      background: var(--bg); border: 1px solid var(--border); border-left: 2px solid var(--accent);
+      padding: 32px;
     }
-    .free-tag {
-      display: inline-block;
-      background: rgba(255,224,0,0.12);
-      color: var(--cyan);
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 2px;
-      padding: 4px 12px;
-      margin-bottom: 10px;
-    }
-    .price-text { font-size: 15px; color: var(--muted); }
-    .price-text strong { color: var(--white); font-size: 20px; }
+    .ai-how h3 { font-size: 10px; font-weight: 700; letter-spacing: 3px; color: var(--accent); text-transform: uppercase; margin-bottom: 18px; }
+    .ai-how p  { font-size: 13px; color: var(--muted); line-height: 1.8; }
+    .ai-how p + p { margin-top: 12px; }
+    .ai-how .hl { color: var(--white); font-weight: 600; }
 
-    .btn-outer { margin-bottom: 14px; }
-    .btn {
-      display: inline-block;
-      background: var(--cyan);
-      color: #0a0800;
-      font-size: 14px;
-      font-weight: 900;
-      letter-spacing: 3px;
-      padding: 22px 72px;
-      text-decoration: none;
-      transition: opacity .15s;
-      animation: glow 2.6s ease-in-out infinite;
-    }
-    .btn:hover { opacity: .85; animation: none; box-shadow: 0 0 36px rgba(255,224,0,.5); }
-    @keyframes glow {
-      0%,100% { box-shadow: 0 0 0 rgba(255,224,0,0); }
-      50%      { box-shadow: 0 0 30px rgba(255,224,0,.4); }
-    }
-    .cancel { font-size: 12px; color: var(--muted); }
-
-    /* ── Claude Section ─────────────────────────────────────────────────── */
-    .claude-section {
-      padding: 72px 0 80px;
-      border-top: 2px solid rgba(255,224,0,.35);
-    }
-    .claude-header { text-align: center; margin-bottom: 48px; }
-    .claude-header .eyebrow {
-      font-size: 11px; font-weight: 700; letter-spacing: 5px;
-      color: var(--cyan); margin-bottom: 16px;
-    }
-    .claude-header h2 {
-      font-size: clamp(28px, 5vw, 44px);
-      font-weight: 900; letter-spacing: -1.5px; line-height: 1.05;
-      margin-bottom: 16px;
-    }
-    .claude-header h2 em { font-style: normal; color: var(--cyan); }
-    .claude-header .desc {
-      color: var(--muted); font-size: 15px; line-height: 1.7;
-      max-width: 580px; margin: 0 auto;
-    }
-
-    .claude-body {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 32px;
-      margin-bottom: 44px;
-    }
-    @media (max-width: 640px) { .claude-body { grid-template-columns: 1fr; } }
-
-    .claude-how {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-left: 3px solid var(--cyan);
-      padding: 28px;
-    }
-    .claude-how h3 {
-      font-size: 13px; font-weight: 700; letter-spacing: 2px;
-      color: var(--cyan); margin-bottom: 16px;
-    }
-    .claude-how p {
-      font-size: 14px; color: var(--muted); line-height: 1.7;
-    }
-    .claude-how p + p { margin-top: 12px; }
-    .claude-how .hl { color: var(--white); font-weight: 600; }
-
-    .signal-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-    }
+    .signal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
     .signal-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      padding: 20px;
+      background: var(--bg); border: 1px solid var(--border);
+      padding: 22px; transition: border-color .25s;
     }
-    .signal-card .sig-icon { font-size: 22px; margin-bottom: 8px; }
-    .signal-card .sig-name {
-      font-size: 12px; font-weight: 700; letter-spacing: 2px;
-      color: var(--white); margin-bottom: 6px;
-    }
-    .signal-card .sig-desc { font-size: 13px; color: var(--muted); line-height: 1.5; }
-    .signal-card.buy   { border-color: rgba(255,224,0,.3); }
-    .signal-card.dd    { border-color: rgba(255,160,0,.25); }
-    .signal-card.trim  { border-color: rgba(255,100,50,.2); }
-    .signal-card.sell  { border-color: rgba(255,77,77,.2); }
+    .signal-card:hover { border-color: var(--border-y); }
+    .signal-card.buy   { border-bottom: 2px solid rgba(0,200,83,.35); }
+    .signal-card.dd    { border-bottom: 2px solid rgba(245,230,66,.35); }
+    .signal-card.trim  { border-bottom: 2px solid rgba(255,160,50,.35); }
+    .signal-card.sell  { border-bottom: 2px solid rgba(255,77,77,.35); }
+    .sig-icon { font-size: 20px; margin-bottom: 10px; }
+    .sig-name { font-size: 10px; font-weight: 800; letter-spacing: 2px; color: var(--white); text-transform: uppercase; margin-bottom: 7px; }
+    .sig-desc { font-size: 12px; color: var(--muted); line-height: 1.6; }
 
-    .claude-cta-row {
-      display: flex; justify-content: center; gap: 16px; flex-wrap: wrap;
-    }
+    .ai-cta-row { text-align: center; margin-top: 56px; }
     .btn-ghost {
-      display: inline-block;
-      border: 1px solid var(--cyan);
-      color: var(--cyan);
-      background: rgba(255,224,0,0.05);
-      font-size: 13px; font-weight: 700; letter-spacing: 3px;
-      padding: 16px 44px; text-decoration: none;
-      transition: background .15s, color .15s, box-shadow .15s;
-      animation: glow-ghost 3s ease-in-out infinite;
+      display: inline-block; border: 1px solid var(--accent); color: var(--accent);
+      background: transparent; font-size: 11px; font-weight: 700; letter-spacing: 3px;
+      padding: 16px 40px; text-decoration: none; text-transform: uppercase;
+      transition: background .2s, color .2s, box-shadow .2s;
     }
-    .btn-ghost:hover {
-      background: var(--cyan);
-      color: #0a0800;
-      animation: none;
-      box-shadow: 0 0 28px rgba(255,224,0,.45);
-    }
-    @keyframes glow-ghost {
-      0%,100% { box-shadow: 0 0 0 rgba(255,224,0,0); }
-      50%      { box-shadow: 0 0 18px rgba(255,224,0,.25); }
-    }
+    .btn-ghost:hover { background: var(--accent); color: #0A0800; box-shadow: 0 0 28px rgba(245,230,66,.28); }
 
-    /* ── Footer ─────────────────────────────────────────────────────────── */
-    footer {
+    /* ── EDUCATION ── */
+    .education { padding: 110px 0; }
+    .edu-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 2px; margin-top: 56px; }
+    @media (max-width: 768px) { .edu-grid { grid-template-columns: 1fr; } }
+    .edu-card {
+      background: var(--bg2); border: 1px solid var(--border);
+      padding: 32px; transition: border-color .25s;
+    }
+    .edu-card:hover { border-color: var(--border-y); }
+    .edu-num {
+      width: 52px; height: 52px; border: 1px solid rgba(245,230,66,.12);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; font-weight: 800; color: rgba(245,230,66,.35);
+      margin-bottom: 20px; letter-spacing: 1px;
+    }
+    .edu-title { font-size: 14px; font-weight: 700; color: var(--white); margin-bottom: 10px; }
+    .edu-desc  { font-size: 12px; color: var(--muted); line-height: 1.75; }
+
+    /* ── TESTIMONIALS ── */
+    .testimonials { padding: 110px 0; background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .testi-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; margin-top: 56px; }
+    @media (max-width: 860px) { .testi-grid { grid-template-columns: 1fr; } }
+    .testi-card {
+      background: var(--bg); border: 1px solid var(--border);
+      padding: 32px; position: relative;
+    }
+    .testi-card::before {
+      content: '"'; position: absolute; top: 16px; right: 20px;
+      font-size: 72px; color: rgba(245,230,66,.05);
+      font-family: Georgia, serif; line-height: 1;
+    }
+    .stars { display: flex; gap: 2px; margin-bottom: 18px; }
+    .star  { color: var(--accent); font-size: 13px; }
+    .testi-text { font-size: 13px; color: var(--muted); line-height: 1.8; margin-bottom: 22px; }
+    .testi-author { display: flex; align-items: center; gap: 12px; }
+    .t-avatar {
+      width: 34px; height: 34px; background: var(--bg2); border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 700; color: var(--accent); flex-shrink: 0;
+    }
+    .t-name { font-size: 12px; font-weight: 700; color: var(--white); }
+    .t-role { font-size: 10px; color: var(--dim); margin-top: 2px; }
+
+    /* ── COMMUNITY / DISCORD ── */
+    .community { padding: 110px 0; }
+    .community-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: center; }
+    @media (max-width: 860px) { .community-inner { grid-template-columns: 1fr; gap: 44px; } }
+    .community-left h3 { font-size: 30px; font-weight: 800; letter-spacing: -1px; color: var(--white); line-height: 1.2; margin-bottom: 16px; }
+    .community-left p  { font-size: 14px; color: var(--muted); line-height: 1.75; margin-bottom: 28px; }
+    .channel-list { display: flex; flex-direction: column; gap: 6px; }
+    .ch {
+      display: flex; align-items: center; gap: 10px; padding: 11px 15px;
+      background: var(--bg2); border: 1px solid var(--border);
+      font-size: 12px; color: var(--muted); transition: border-color .2s, color .2s;
+    }
+    .ch:hover { border-color: var(--border-y); color: var(--white); }
+    .ch-hash { color: var(--dim); font-weight: 700; }
+    .ch-live { margin-left: auto; font-size: 9px; font-weight: 700; letter-spacing: 1px; color: var(--green); }
+
+    /* Discord mock */
+    .discord-mock { background: #1E1F22; border: 1px solid #2F3136; overflow: hidden; }
+    .discord-top  { background: #1E1F22; border-bottom: 1px solid #2F3136; padding: 11px 16px; display: flex; align-items: center; gap: 8px; }
+    .d-hash       { color: #72767D; font-size: 17px; font-weight: 700; }
+    .d-ch-name    { color: #DCDDDE; font-size: 13px; font-weight: 600; }
+    .discord-msgs { padding: 16px; display: flex; flex-direction: column; gap: 14px; }
+    .dm           { display: flex; gap: 11px; }
+    .dm-av        { width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; flex-shrink: 0; }
+    .dm-av.bot    { background: #5865F2; color: #fff; }
+    .dm-av.user   { background: var(--accent); color: #0A0800; font-size: 12px; }
+    .dm-hdr       { display: flex; align-items: baseline; gap: 8px; margin-bottom: 3px; }
+    .dm-name      { font-size: 12px; font-weight: 700; color: #DCDDDE; }
+    .dm-name.bot  { color: #5865F2; }
+    .dm-name.usr  { color: var(--accent); }
+    .dm-time      { font-size: 10px; color: #72767D; }
+    .dm-txt       { font-size: 12px; color: #DCDDDE; line-height: 1.55; }
+    .dm-txt .g    { color: #57F287; font-weight: 700; }
+    .dm-txt .y    { color: #FEE75C; font-weight: 700; }
+    .dm-txt .rd   { color: #ED4245; }
+
+    /* ── FAQ ── */
+    .faq { padding: 110px 0; border-top: 1px solid var(--border); }
+    .faq-list { margin-top: 56px; display: flex; flex-direction: column; gap: 3px; }
+    .faq-item { background: var(--bg2); border: 1px solid var(--border); overflow: hidden; }
+    .faq-q {
+      width: 100%; display: flex; justify-content: space-between; align-items: center;
+      padding: 22px 28px; background: none; border: none;
+      color: var(--white); font-size: 14px; font-weight: 600; text-align: left;
+      cursor: pointer; letter-spacing: -.2px; font-family: inherit; transition: color .2s;
+    }
+    .faq-q:hover { color: var(--accent); }
+    .faq-icon { color: var(--accent); font-size: 20px; font-weight: 300; flex-shrink: 0; transition: transform .3s; }
+    .faq-item.open .faq-icon { transform: rotate(45deg); }
+    .faq-a { max-height: 0; overflow: hidden; transition: max-height .4s ease; }
+    .faq-item.open .faq-a { max-height: 400px; }
+    .faq-a-inner {
+      padding: 0 28px 22px;
+      font-size: 13px; color: var(--muted); line-height: 1.8;
       border-top: 1px solid var(--border);
-      padding: 28px 0;
-      text-align: center;
     }
-    footer p { font-size: 12px; color: var(--muted); line-height: 1.7; }
 
-    @media (max-width: 600px) {
-      .stats-grid { grid-template-columns: 1fr; }
-      thead th.hide, td.hide { display: none; }
-      .btn { padding: 20px 40px; }
+    /* ── FINAL CTA ── */
+    .final-cta {
+      padding: 130px 0 110px; text-align: center;
+      border-top: 1px solid var(--border); position: relative; overflow: hidden;
     }
+    .final-cta::before {
+      content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+      width: 700px; height: 700px;
+      background: radial-gradient(circle, rgba(245,230,66,.035) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .final-cta h2 {
+      font-size: clamp(34px, 5vw, 60px); font-weight: 900;
+      letter-spacing: -2.5px; color: var(--white); line-height: 1.05; margin-bottom: 18px;
+    }
+    .final-cta h2 em { font-style: normal; color: var(--accent); }
+    .final-cta .hero-sub { margin-left: auto; margin-right: auto; }
+
+    .value-list { display: inline-flex; flex-direction: column; gap: 13px; text-align: left; margin-bottom: 48px; margin-top: 8px; }
+    .value-list li { list-style: none; display: flex; align-items: flex-start; gap: 13px; font-size: 14px; color: var(--muted); line-height: 1.5; }
+    .value-list .chk { color: var(--accent); font-weight: 700; font-size: 12px; flex-shrink: 0; margin-top: 2px; }
+    .value-list strong { color: var(--white); }
+
+    .spots-wrap { margin-bottom: 44px; }
+    .spots-count { font-size: 18px; font-weight: 700; color: var(--accent); letter-spacing: .5px; margin-bottom: 14px; }
+    .progress-track { width: 300px; height: 4px; background: var(--bg2); border: 1px solid var(--border); margin: 0 auto 10px; overflow: hidden; }
+    .progress-fill  { height: 100%; background: var(--accent); width: 0%; transition: width 1s ease; }
+    .spots-note { font-size: 11px; color: var(--dim); }
+
+    .price-row    { margin-bottom: 32px; }
+    .free-tag     { display: inline-block; background: rgba(245,230,66,.09); border: 1px solid rgba(245,230,66,.18); color: var(--accent); font-size: 10px; font-weight: 700; letter-spacing: 3px; padding: 5px 14px; margin-bottom: 10px; text-transform: uppercase; }
+    .price-text   { font-size: 14px; color: var(--muted); }
+    .price-text strong { color: var(--white); font-size: 20px; font-weight: 800; }
+
+    .btn-large {
+      display: inline-block; background: var(--accent); color: #0A0800;
+      font-size: 13px; font-weight: 900; letter-spacing: 3px;
+      padding: 20px 72px; text-decoration: none; text-transform: uppercase;
+      transition: opacity .2s, box-shadow .2s;
+      animation: btn-glow 3s ease-in-out infinite;
+    }
+    .btn-large:hover { opacity: .88; animation: none; box-shadow: 0 0 48px var(--aglow); }
+    .cancel-note { font-size: 11px; color: var(--dim); margin-top: 14px; }
+
+    /* ── FOOTER ── */
+    footer { border-top: 1px solid var(--border); background: var(--bg); padding: 44px 0 32px; position: relative; z-index: 2; }
+    .footer-inner {
+      max-width: 1160px; margin: 0 auto; padding: 0 32px;
+      display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap;
+    }
+    .footer-logo { display: flex; align-items: center; gap: 10px; }
+    .footer-logo img { height: 22px; width: 22px; object-fit: contain; }
+    .footer-logo span { font-size: 11px; font-weight: 800; letter-spacing: 3px; color: var(--dim); }
+    .footer-links { display: flex; gap: 22px; }
+    .footer-links a { font-size: 11px; color: var(--dim); text-decoration: none; transition: color .2s; }
+    .footer-links a:hover { color: var(--accent); }
+    .footer-legal { font-size: 10px; color: var(--dim); text-align: right; line-height: 1.65; }
+    @media (max-width: 680px) { .footer-inner { flex-direction: column; text-align: center; } .footer-legal { text-align: center; } }
+
+    /* ── ANIMATIONS ── */
+    .fade-up { opacity: 0; transform: translateY(28px); transition: opacity .6s ease, transform .6s ease; }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+    .stagger > * { opacity: 0; transform: translateY(22px); transition: opacity .5s ease, transform .5s ease; }
+    .stagger.visible > *:nth-child(1) { opacity:1; transform:translateY(0); transition-delay:.05s; }
+    .stagger.visible > *:nth-child(2) { opacity:1; transform:translateY(0); transition-delay:.13s; }
+    .stagger.visible > *:nth-child(3) { opacity:1; transform:translateY(0); transition-delay:.21s; }
+    .stagger.visible > *:nth-child(4) { opacity:1; transform:translateY(0); transition-delay:.29s; }
+    .stagger.visible > *:nth-child(5) { opacity:1; transform:translateY(0); transition-delay:.37s; }
+    .stagger.visible > *:nth-child(6) { opacity:1; transform:translateY(0); transition-delay:.45s; }
+    @media (prefers-reduced-motion: reduce) { .fade-up, .stagger > * { opacity:1; transform:none; transition:none; } }
+
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border); }
   </style>
 </head>
 <body>
-<div class="container">
 
-  <!-- Nav -->
-  <nav class="top-nav">
-    <div class="logo-mark">
+<canvas id="bg-canvas"></canvas>
+<div id="spotlight"></div>
+
+<!-- ── NAV ────────────────────────────────────────────────────────────── -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
       <img src="logo.png" alt="Kimi Invest">
       <span>KIMI INVEST</span>
-    </div>
+    </a>
     <div class="nav-links">
-      <a href="trades.html">TRADE LOG</a>
-      <a href="portfolio.html">PORTFOLIO</a>
-    </div>
-  </nav>
-
-  <!-- Hero -->
-  <section class="hero">
-    <p class="eyebrow">EVERY TRADE &mdash; NOTHING CUT</p>
-    <h1>KIMI<br>INVEST</h1>
-    <p class="sub" id="hero-sub">Loading...</p>
-  </section>
-
-  <!-- Stats -->
-  <div class="stats-grid">
-    <div class="stat-card">
-      <span class="stat-label">TRADES</span>
-      <span class="stat-value" id="v-trades">&mdash;</span>
-    </div>
-    <div class="stat-card">
-      <span class="stat-label">WIN RATE</span>
-      <span class="stat-value cyan" id="v-winrate">&mdash;</span>
-    </div>
-    <div class="stat-card">
-      <span class="stat-label">PROFIT FACTOR</span>
-      <span class="stat-value cyan" id="v-pf">&mdash;</span>
+      <a href="#performance">Performance</a>
+      <a href="#community">Community</a>
+      <a href="trades.html">Trade Log</a>
+      <a href="portfolio.html">Portfolio</a>
+      <a href="https://whop.com/kimiinvest/kimi-invest-premium-early-access/" class="nav-cta">Join Now</a>
     </div>
   </div>
+</nav>
 
-  <!-- Chart -->
-  <div class="chart-wrap"><canvas id="chart"></canvas></div>
-  <p class="chart-note">Up days and down days. Nothing hidden.</p>
+<!-- ── HERO ───────────────────────────────────────────────────────────── -->
+<section class="hero" id="top">
+  <div class="wrap">
+    <div class="hero-grid">
 
-  <!-- Trade Log -->
-  <section class="trade-log">
-    <p class="section-label">EVERY TRADE &mdash; NOTHING CUT</p>
-    <p class="section-sub">Live from Alpaca &middot; Updated hourly</p>
-    <div class="table-wrap">
+      <div class="hero-content">
+        <div class="hero-badge">Private Investment Community</div>
+        <h1>Invest Smarter.<br>Trade With <span class="acc">Confidence.</span></h1>
+        <p class="hero-sub">
+          Join an elite Discord community built on disciplined investing, live trading signals,
+          AI-powered portfolio management, and deep market education.
+        </p>
+        <p class="hero-live" id="hero-sub">Loading performance data…</p>
+        <div class="hero-ctas">
+          <a href="https://whop.com/kimiinvest/kimi-invest-premium-early-access/" class="btn-primary">Join the Discord →</a>
+          <a href="#performance" class="btn-outline">View Performance</a>
+        </div>
+        <div class="hero-trust">
+          <div class="trust-item"><span class="dot">✦</span> Live signals, real money</div>
+          <div class="trust-item"><span class="dot">✦</span> Nothing hidden</div>
+          <div class="trust-item"><span class="dot">✦</span> 14-day free trial</div>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <canvas class="hero-chart-bg" id="hero-sparkline"></canvas>
+
+        <div class="float-card">
+          <div class="fc-label">Win Rate</div>
+          <div class="fc-val acc" id="fc-winrate">—</div>
+          <div class="fc-sub">SPY Strategy</div>
+          <div class="fc-tag y">LIVE</div>
+        </div>
+        <div class="float-card">
+          <div class="fc-label">Profit Factor</div>
+          <div class="fc-val grn" id="fc-pf">—</div>
+          <div class="fc-sub">Risk-adjusted edge</div>
+          <div class="fc-tag g">VERIFIED</div>
+        </div>
+        <div class="float-card">
+          <div class="fc-label">Closed Trades</div>
+          <div class="fc-val" id="fc-trades">—</div>
+          <div class="fc-sub">Alpaca · Real money</div>
+          <div class="fc-tag y">ALPACA</div>
+        </div>
+        <div class="float-card">
+          <div class="fc-label">Spots Left</div>
+          <div class="fc-val acc" id="fc-spots">—</div>
+          <div class="fc-sub">Early access</div>
+          <div class="fc-tag r">LIMITED</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── STATS STRIP ────────────────────────────────────────────────────── -->
+<div class="stats-strip">
+  <div class="wrap">
+    <div class="strip-grid">
+      <div class="strip-stat">
+        <div class="strip-label">Total Trades</div>
+        <div class="strip-val" id="v-trades">—</div>
+        <div class="strip-sub">Closed positions</div>
+      </div>
+      <div class="strip-stat">
+        <div class="strip-label">Win Rate</div>
+        <div class="strip-val acc" id="v-winrate">—</div>
+        <div class="strip-sub">Historical accuracy</div>
+      </div>
+      <div class="strip-stat">
+        <div class="strip-label">Profit Factor</div>
+        <div class="strip-val acc" id="v-pf">—</div>
+        <div class="strip-sub">Gross win ÷ gross loss</div>
+      </div>
+      <div class="strip-stat">
+        <div class="strip-label">Early Access Spots</div>
+        <div class="strip-val acc" id="v-spots">—</div>
+        <div class="strip-sub">Remaining</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── PERFORMANCE DASHBOARD ─────────────────────────────────────────── -->
+<section class="performance" id="performance">
+  <div class="wrap">
+    <div class="sec-hdr fade-up">
+      <p class="eyebrow">Performance Dashboard</p>
+      <h2>Every trade.<br><em>Nothing hidden.</em></h2>
+      <p>Live results pulled directly from Alpaca. Wins and losses, exactly as executed. No cherry-picking, no simulations.</p>
+    </div>
+
+    <div class="chart-card fade-up">
+      <div class="chart-hdr">
+        <div>
+          <div class="chart-title">Cumulative Return — SPY Strategy</div>
+          <div class="chart-note" id="date-range-note">Live from Alpaca · Updated hourly</div>
+        </div>
+        <div class="chart-note" id="summary-small"></div>
+      </div>
+      <div class="chart-wrap"><canvas id="chart"></canvas></div>
+    </div>
+
+    <div class="table-card fade-up">
+      <div class="table-hdr">
+        <div class="table-title">Recent Trades</div>
+        <a href="trades.html" id="view-all-link" class="view-all">View All Trades →</a>
+      </div>
       <table>
         <thead>
           <tr>
             <th class="num">#</th>
-            <th>DATE</th>
-            <th class="r hide">BUY</th>
-            <th class="r hide">SELL</th>
-            <th class="r hl">RETURN %</th>
-            <th class="r hl">RESULT</th>
+            <th>Date</th>
+            <th class="r hide">Buy</th>
+            <th class="r hide">Sell</th>
+            <th class="r hl">Return %</th>
+            <th class="r hl">Result</th>
           </tr>
         </thead>
         <tbody id="tbody"></tbody>
       </table>
     </div>
-    <div style="text-align:center; margin-top:16px;">
-      <a href="trades.html" id="view-all-link" style="color:var(--cyan);font-size:13px;font-weight:700;letter-spacing:2px;text-decoration:none;">VIEW ALL TRADES &rarr;</a>
+
+    <div class="summary-bar fade-up" id="summary">
+      <div class="sum-item">&nbsp;</div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <p class="summary" id="summary">&nbsp;</p>
+<!-- ── COMMUNITY BENEFITS ────────────────────────────────────────────── -->
+<section class="benefits" id="benefits">
+  <div class="wrap">
+    <div class="sec-hdr fade-up">
+      <p class="eyebrow">What You Get</p>
+      <h2>Built for serious<br><em>market participants.</em></h2>
+      <p>Everything in one private Discord — live trade signals, AI portfolio management, deep research, and market education.</p>
+    </div>
+    <div class="benefits-grid stagger">
+      <div class="benefit-card">
+        <div class="benefit-icon">📡</div>
+        <div class="benefit-title">Live Trading Signals</div>
+        <div class="benefit-desc">Every SPY entry and exit posted in real time — before the trade closes. Price, direction, and timing. No delayed alerts, no after-the-fact calls.</div>
+        <div class="benefit-tag">Real-time · Alpaca verified</div>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon">🤖</div>
+        <div class="benefit-title">AI Portfolio Management</div>
+        <div class="benefit-desc">The Kimi Portfolio Manager autonomously selects stocks, sizes positions, and rebalances a long-term equity portfolio. Every move signals to members in real time.</div>
+        <div class="benefit-tag">Monthly rebalance · Live signals</div>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon">📊</div>
+        <div class="benefit-title">Deep Market Research</div>
+        <div class="benefit-desc">Quarterly earnings analysis, sector breakdowns, macro context, and risk-reward setups. Understand the thesis behind every trade — not just the ticker.</div>
+        <div class="benefit-tag">Earnings · Macro · Sector flows</div>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon">🎓</div>
+        <div class="benefit-title">Market Education</div>
+        <div class="benefit-desc">Position sizing, risk management, trade journaling, and how to read market structure. Built for traders who want to improve, not just copy signals.</div>
+        <div class="benefit-tag">Trading fundamentals · Risk mgmt</div>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon">👥</div>
+        <div class="benefit-title">Private Community</div>
+        <div class="benefit-desc">A focused, noise-free Discord with serious investors. No pumping, no hype — just disciplined traders sharing ideas and learning from each other.</div>
+        <div class="benefit-tag">Discord · Members only</div>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon">🔒</div>
+        <div class="benefit-title">Full Transparency</div>
+        <div class="benefit-desc">Every win and every loss posted publicly. The dashboard above is live — verify every trade before you commit to anything. No simulations, no selective sharing.</div>
+        <div class="benefit-tag">Nothing hidden · Public record</div>
+      </div>
+    </div>
+  </div>
+</section>
 
-  <!-- Claude Strategy Section -->
-  <section class="claude-section">
-    <div class="claude-header">
-      <p class="eyebrow">KIMI PORTFOLIO MANAGER</p>
+<!-- ── MARKET RESEARCH ────────────────────────────────────────────────── -->
+<section class="research" id="research">
+  <div class="wrap">
+    <div class="research-grid">
+      <div class="research-left fade-up">
+        <p class="eyebrow">Market Research</p>
+        <h3>Understand the thesis. Not just the trade.</h3>
+        <p>Members receive in-depth analysis on every major move — so you know the reasoning, the risk, and the exit plan before you enter.</p>
+      </div>
+      <div class="research-items stagger">
+        <div class="ri">
+          <div class="ri-num">01</div>
+          <div>
+            <div class="ri-title">Earnings & Fundamental Analysis</div>
+            <div class="ri-desc">Quarterly financials with visual charts. Revenue growth, margin trends, and forward guidance — all contextualized for the trade thesis.</div>
+          </div>
+        </div>
+        <div class="ri">
+          <div class="ri-num">02</div>
+          <div>
+            <div class="ri-title">Macro Context & Sector Rotation</div>
+            <div class="ri-desc">Interest rate environment, Fed policy shifts, and capital flows across sectors — the big-picture backdrop that drives long-term positioning.</div>
+          </div>
+        </div>
+        <div class="ri">
+          <div class="ri-num">03</div>
+          <div>
+            <div class="ri-title">Entry & Exit Reasoning</div>
+            <div class="ri-desc">Every signal includes a written thesis: why this stock, why now, what weight, and what would break the conviction. No blind following.</div>
+          </div>
+        </div>
+        <div class="ri">
+          <div class="ri-num">04</div>
+          <div>
+            <div class="ri-title">Monthly Portfolio Review</div>
+            <div class="ri-desc">End-of-month breakdown of portfolio performance, position changes, benchmark comparison, and forward outlook — posted to all premium members.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── KIMI PORTFOLIO MANAGER ─────────────────────────────────────────── -->
+<section class="ai-section" id="ai-strategy">
+  <div class="wrap">
+    <div class="sec-hdr fade-up">
+      <p class="eyebrow">Kimi Portfolio Manager</p>
       <h2>A second strategy.<br><em>Powered by AI.</em></h2>
-      <p class="desc">
-        Running alongside the SPY system, an autonomous AI system manages a separate
-        long-term equity portfolio — selecting stocks, sizing positions, and rebalancing
-        as conditions evolve. Every move fires a live signal to members.
-      </p>
+      <p>Running alongside the SPY system, an autonomous AI manages a separate long-term equity portfolio — selecting stocks, sizing positions, and rebalancing as conditions evolve. Every move fires a live signal to members.</p>
     </div>
 
-    <div class="claude-body">
-      <div class="claude-how">
-        <h3>HOW IT WORKS</h3>
-        <p>
-          An advanced AI system reads live market data, portfolio
-          weights, and macroeconomic context, then decides when to enter, exit, or adjust
-          each long-term position. Trades execute directly on <span class="hl">Alpaca</span>, verified and timestamped.
-        </p>
-        <p>
-          Unlike short-term SPY trading, this strategy holds positions for weeks to months.
-          Each stock is assigned a <span class="hl">target portfolio weight</span>, and the system rebalances
-          when conviction changes — adding on strength, trimming when targets are reached, or
-          cutting losses cleanly when the thesis breaks.
-        </p>
-        <p>
-          No human intervenes between decision and execution. <span class="hl">The signal you see is the trade.</span>
-        </p>
+    <div class="ai-inner">
+      <div class="fade-up">
+        <div class="ai-how">
+          <h3>How It Works</h3>
+          <p>
+            An advanced AI system reads live market data, portfolio weights, and macroeconomic context,
+            then decides when to enter, exit, or adjust each long-term position. Trades execute directly
+            on <span class="hl">Robinhood</span>, verified and timestamped.
+          </p>
+          <p>
+            Unlike short-term SPY trading, this strategy holds positions for weeks to months. Each stock
+            is assigned a <span class="hl">target portfolio weight</span>, and the system rebalances when
+            conviction changes — adding on strength, trimming at targets, or cutting losses when the thesis breaks.
+          </p>
+          <p>
+            No human intervenes between decision and execution.
+            <span class="hl">The signal you see is the trade.</span>
+          </p>
+        </div>
       </div>
 
-      <div class="signal-grid">
-        <div class="signal-card buy">
-          <div class="sig-icon">🟢</div>
-          <div class="sig-name">BUY</div>
-          <div class="sig-desc">Kimi opens a new long-term position in a high-conviction stock.</div>
-        </div>
-        <div class="signal-card dd">
-          <div class="sig-icon">🔥</div>
-          <div class="sig-name">DOUBLE DOWN</div>
-          <div class="sig-desc">Kimi adds to an existing position — the thesis just got stronger.</div>
-        </div>
-        <div class="signal-card trim">
-          <div class="sig-icon">✂️</div>
-          <div class="sig-name">TRIM</div>
-          <div class="sig-desc">Kimi scales back a position that has outgrown its target weight.</div>
-        </div>
-        <div class="signal-card sell">
-          <div class="sig-icon">🔴</div>
-          <div class="sig-name">SELL</div>
-          <div class="sig-desc">Kimi exits a position fully — thesis broken or target reached.</div>
+      <div class="fade-up">
+        <div class="signal-grid">
+          <div class="signal-card buy">
+            <div class="sig-icon">🟢</div>
+            <div class="sig-name">Buy</div>
+            <div class="sig-desc">Kimi opens a new long-term position in a high-conviction stock.</div>
+          </div>
+          <div class="signal-card dd">
+            <div class="sig-icon">🔥</div>
+            <div class="sig-name">Double Down</div>
+            <div class="sig-desc">Kimi adds to an existing position — the thesis just got stronger.</div>
+          </div>
+          <div class="signal-card trim">
+            <div class="sig-icon">✂️</div>
+            <div class="sig-name">Trim</div>
+            <div class="sig-desc">Kimi scales back a position that has outgrown its target weight.</div>
+          </div>
+          <div class="signal-card sell">
+            <div class="sig-icon">🔴</div>
+            <div class="sig-name">Sell</div>
+            <div class="sig-desc">Kimi exits a position fully — thesis broken or target reached.</div>
+          </div>
         </div>
       </div>
     </div>
 
-    <div class="claude-cta-row">
-      <a href="portfolio.html" class="btn-ghost">VIEW PORTFOLIO CALLOUTS &rarr;</a>
+    <div class="ai-cta-row fade-up">
+      <a href="portfolio.html" class="btn-ghost">View Portfolio Callouts →</a>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- CTA -->
-  <section class="cta">
-    <p class="cta-eyebrow">EARLY ACCESS</p>
-    <h2 class="cta-headline">Get the signal.<br><em>Before the spot's gone.</em></h2>
-    <p class="cta-sub">
-      Every trade above was posted <strong>live</strong> to paying members
-      before it closed. Same system. Same signals. Real money.
+<!-- ── EDUCATIONAL RESOURCES ──────────────────────────────────────────── -->
+<section class="education" id="education">
+  <div class="wrap">
+    <div class="sec-hdr fade-up">
+      <p class="eyebrow">Educational Resources</p>
+      <h2>Learn to think like<br><em>a professional trader.</em></h2>
+      <p>Signals are just the start. The real edge is understanding how and why a trade is made — then building that discipline yourself.</p>
+    </div>
+    <div class="edu-grid stagger">
+      <div class="edu-card">
+        <div class="edu-num">01</div>
+        <div class="edu-title">Position Sizing & Risk Management</div>
+        <div class="edu-desc">Learn how to size positions based on conviction and account size. Why controlling risk per trade matters more than picking winners.</div>
+      </div>
+      <div class="edu-card">
+        <div class="edu-num">02</div>
+        <div class="edu-title">Reading Market Structure</div>
+        <div class="edu-desc">Trend identification, support and resistance, volume interpretation. How to read what the market is telling you — not what pundits say.</div>
+      </div>
+      <div class="edu-card">
+        <div class="edu-num">03</div>
+        <div class="edu-title">Trade Journaling & Review</div>
+        <div class="edu-desc">Why every professional trader keeps a journal. How to analyze your own trades for patterns and stop repeating costly mistakes.</div>
+      </div>
+      <div class="edu-card">
+        <div class="edu-num">04</div>
+        <div class="edu-title">Long-Term Investing Thesis</div>
+        <div class="edu-desc">How to evaluate a stock for long-term holding — business quality, competitive moats, valuation, and what changes your conviction.</div>
+      </div>
+      <div class="edu-card">
+        <div class="edu-num">05</div>
+        <div class="edu-title">Trading Psychology</div>
+        <div class="edu-desc">Why most traders lose — fear, greed, FOMO, and overconfidence. How to build process and remove emotion from execution decisions.</div>
+      </div>
+      <div class="edu-card">
+        <div class="edu-num">06</div>
+        <div class="edu-title">Macro Economics for Traders</div>
+        <div class="edu-desc">Interest rates, inflation, sector rotation, and earnings cycles — the macro context behind every swing trade and long-term investment.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── TESTIMONIALS ───────────────────────────────────────────────────── -->
+<section class="testimonials" id="testimonials">
+  <div class="wrap">
+    <div class="sec-hdr fade-up">
+      <p class="eyebrow">What Members Say</p>
+      <h2>Trusted by disciplined<br><em>investors.</em></h2>
+    </div>
+    <div class="testi-grid stagger">
+      <div class="testi-card">
+        <div class="stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+        <div class="testi-text">"The transparency is what got me. They post every loss right next to every win. That kind of honesty is rare in this space — and it makes the signal feed actually trustworthy."</div>
+        <div class="testi-author">
+          <div class="t-avatar">MK</div>
+          <div><div class="t-name">Michael K.</div><div class="t-role">Swing Trader · 2 years</div></div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+        <div class="testi-text">"I've learned more about discipline and risk management in 3 months here than in 3 years of solo trading. The research breakdowns are genuinely educational, not just signals."</div>
+        <div class="testi-author">
+          <div class="t-avatar">SR</div>
+          <div><div class="t-name">Sarah R.</div><div class="t-role">Long-term investor · Member since 2025</div></div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+        <div class="testi-text">"Watching how the AI sizes positions and rebalances over time has completely changed how I think about long-term portfolio construction. Worth it for that alone."</div>
+        <div class="testi-author">
+          <div class="t-avatar">DJ</div>
+          <div><div class="t-name">David J.</div><div class="t-role">Portfolio investor · 5 years experience</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── DISCORD COMMUNITY PREVIEW ─────────────────────────────────────── -->
+<section class="community" id="community">
+  <div class="wrap">
+    <div class="community-inner">
+      <div class="community-left fade-up">
+        <p class="eyebrow">Discord Community</p>
+        <h3>A private server built for serious traders.</h3>
+        <p>No noise. No pump-and-dump. Just a focused community of disciplined traders sharing research, signals, and market insights in real time.</p>
+        <div class="channel-list">
+          <div class="ch"><span class="ch-hash">#</span><span>spy-live-signals</span><span class="ch-live">● LIVE</span></div>
+          <div class="ch"><span class="ch-hash">#</span><span>portfolio-manager-signals</span><span class="ch-live">● LIVE</span></div>
+          <div class="ch"><span class="ch-hash">#</span><span>market-research</span></div>
+          <div class="ch"><span class="ch-hash">#</span><span>earnings-analysis</span></div>
+          <div class="ch"><span class="ch-hash">#</span><span>general-discussion</span></div>
+          <div class="ch"><span class="ch-hash">#</span><span>education-resources</span></div>
+        </div>
+      </div>
+
+      <div class="fade-up">
+        <div class="discord-mock">
+          <div class="discord-top">
+            <span class="d-hash">#</span>
+            <span class="d-ch-name">spy-live-signals</span>
+          </div>
+          <div class="discord-msgs">
+            <div class="dm">
+              <div class="dm-av bot">KI</div>
+              <div>
+                <div class="dm-hdr"><span class="dm-name bot">Kimi Bot</span><span class="dm-time">Today at 9:32 AM</span></div>
+                <div class="dm-txt">
+                  <span class="g">🟢 KIMI BUY — SPY</span><br>
+                  Qty: 0.847 shares @ <span class="y">$582.14</span><br>
+                  🕐 9:32 AM CDT — June 10, 2026
+                </div>
+              </div>
+            </div>
+            <div class="dm">
+              <div class="dm-av bot">KI</div>
+              <div>
+                <div class="dm-hdr"><span class="dm-name bot">Kimi Bot</span><span class="dm-time">Today at 2:47 PM</span></div>
+                <div class="dm-txt">
+                  <span class="rd">🔴 KIMI SELL — SPY</span><br>
+                  Qty: 0.847 shares @ <span class="y">$589.61</span><br>
+                  P&amp;L: <span class="g">+$6.33 (+1.28%) 🟢 WIN</span><br>
+                  🕐 2:47 PM CDT — June 10, 2026
+                </div>
+              </div>
+            </div>
+            <div class="dm">
+              <div class="dm-av user">MK</div>
+              <div>
+                <div class="dm-hdr"><span class="dm-name usr">Michael K.</span><span class="dm-time">Today at 2:51 PM</span></div>
+                <div class="dm-txt">another clean exit 🔥 been following every signal this week</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FAQ ─────────────────────────────────────────────────────────────── -->
+<section class="faq" id="faq">
+  <div class="wrap--sm">
+    <div class="sec-hdr fade-up">
+      <p class="eyebrow">FAQ</p>
+      <h2>Everything you need<br><em>to know.</em></h2>
+    </div>
+    <div class="faq-list fade-up">
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFAQ(this)">What is Kimi Invest?<span class="faq-icon">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">Kimi Invest is a private Discord community focused on disciplined stock market investing and swing trading. Members receive live trading signals from two strategies: the SPY Strategy (short-term swing trades via Alpaca) and the Kimi Portfolio Manager (an AI-driven long-term equity portfolio). All trades are executed with real money and posted transparently.</div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFAQ(this)">How do the trading signals work?<span class="faq-icon">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">Signals are posted to Discord automatically by a live trading bot. When the SPY strategy places a trade on Alpaca, or the AI portfolio manager executes on Robinhood, a message fires immediately to the member channel — including ticker, price, quantity, and direction. You see the signal at the same moment the trade executes.</div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFAQ(this)">What's the difference between SPY Strategy and Portfolio Manager?<span class="faq-icon">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">The SPY Strategy is a short-term swing trading system that trades the S&amp;P 500 ETF. Trades typically last hours to days. The Kimi Portfolio Manager is an autonomous AI system that manages a diversified long-term equity portfolio — selecting individual stocks, sizing by target weight, and rebalancing monthly as market conditions and conviction levels change.</div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFAQ(this)">Is this financial advice?<span class="faq-icon">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">No. Kimi Invest is an educational and transparency-focused community. Nothing posted here constitutes financial advice. All trading involves risk, including the loss of principal. Past performance does not guarantee future results. Always do your own research and consult a licensed financial advisor before making investment decisions.</div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFAQ(this)">How do I access signals after joining?<span class="faq-icon">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">After subscribing through Whop, you'll receive an invitation link to the private Discord server. Once you join, you'll have immediate access to all signal channels, research posts, and community discussions. Signals are posted automatically in real time — no app required beyond Discord.</div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFAQ(this)">Can I cancel anytime?<span class="faq-icon">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">Yes. Membership is month-to-month with no commitment. You get a 14-day free trial to experience everything before being charged. Cancel at any time through Whop and you won't be billed again.</div></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── FINAL CTA ───────────────────────────────────────────────────────── -->
+<section class="final-cta" id="join">
+  <div class="wrap--sm">
+    <p class="eyebrow">Early Access</p>
+    <h2>Get the signal.<br><em>Before the spot's gone.</em></h2>
+    <p class="hero-sub" style="margin-left:auto;margin-right:auto;max-width:480px;margin-bottom:36px;">
+      Every trade above was posted <strong style="color:var(--white)">live</strong> to paying members before it closed.
+      Same system. Same signals. Real money.
     </p>
 
     <ul class="value-list">
-      <li><span class="chk">&#10003;</span><span><strong>Live SPY signals</strong> &mdash; every entry and exit, posted in real time</span></li>
-      <li><span class="chk">&#10003;</span><span><strong>65% win rate &middot; 2.06 profit factor</strong> &mdash; verified on real money, above</span></li>
-      <li><span class="chk">&#10003;</span><span><strong>Nothing cut</strong> &mdash; wins and losses both posted, exactly as you see here</span></li>
+      <li><span class="chk">✓</span><span><strong>Live SPY signals</strong> — every entry and exit, posted in real time</span></li>
+      <li><span class="chk">✓</span><span><strong>AI Portfolio Manager signals</strong> — long-term stock picks with full thesis</span></li>
+      <li><span class="chk">✓</span><span><strong>Quarterly financials charts</strong> — posted with every portfolio trade</span></li>
+      <li><span class="chk">✓</span><span><strong>Nothing cut</strong> — wins and losses both posted, exactly as you see above</span></li>
     </ul>
 
     <div class="spots-wrap">
-      <p class="spots-count" id="spots-count">Loading...</p>
-      <div class="progress-track">
-        <div class="progress-fill" id="progress-fill"></div>
-      </div>
-      <p class="spots-note">Once full, this offer closes.</p>
+      <div class="spots-count" id="spots-count">Loading…</div>
+      <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+      <div class="spots-note">Once full, this offer closes.</div>
     </div>
 
     <div class="price-row">
-      <div class="free-tag">14 DAYS FREE</div><br>
-      <p class="price-text">then <strong>$14.99</strong> / month</p>
+      <div class="free-tag">14 days free</div><br>
+      <div class="price-text">then <strong>$14.99</strong> / month</div>
     </div>
 
-    <div class="btn-outer">
-      <a href="https://whop.com/kimiinvest/kimi-invest-premium-early-access/" class="btn">JOIN KIMI INVEST &rarr;</a>
-    </div>
-    <p class="cancel">Cancel anytime. No commitment.</p>
-  </section>
+    <a href="https://whop.com/kimiinvest/kimi-invest-premium-early-access/" class="btn-large">Join Kimi Invest →</a>
+    <div class="cancel-note">Cancel anytime. No commitment.</div>
+  </div>
+</section>
 
-</div>
-
+<!-- ── FOOTER ──────────────────────────────────────────────────────────── -->
 <footer>
-  <div class="container">
-    <p>Past performance &ne; future results. Not financial advice. Trading involves risk of loss.</p>
+  <div class="footer-inner">
+    <div class="footer-logo">
+      <img src="logo.png" alt="Kimi Invest">
+      <span>KIMI INVEST</span>
+    </div>
+    <div class="footer-links">
+      <a href="trades.html">Trade Log</a>
+      <a href="portfolio.html">Portfolio</a>
+      <a href="#faq">FAQ</a>
+      <a href="https://whop.com/kimiinvest/kimi-invest-premium-early-access/">Join</a>
+    </div>
+    <div class="footer-legal">
+      Past performance ≠ future results. Not financial advice.<br>Trading involves risk of loss.
+    </div>
   </div>
 </footer>
 
 <script>
+// ── BACKGROUND ANIMATION ─────────────────────────────────────────────
+(function () {
+  const c = document.getElementById('bg-canvas');
+  const x = c.getContext('2d');
+  function resize() { c.width = innerWidth; c.height = innerHeight; }
+  resize(); window.addEventListener('resize', resize);
+
+  const lines = [
+    { t: 0,   speed: 0.18, amp: 55,  yFrac: 0.18, alpha: 0.055, color: '245,230,66' },
+    { t: 120, speed: 0.12, amp: 80,  yFrac: 0.42, alpha: 0.035, color: '0,200,83'   },
+    { t: 60,  speed: 0.22, amp: 40,  yFrac: 0.66, alpha: 0.04,  color: '245,230,66' },
+    { t: 200, speed: 0.09, amp: 100, yFrac: 0.85, alpha: 0.025, color: '180,180,180' },
+  ];
+
+  function draw() {
+    x.clearRect(0, 0, c.width, c.height);
+    lines.forEach(l => {
+      l.t += l.speed;
+      const baseY = c.height * l.yFrac;
+      const steps = Math.ceil(c.width / 18) + 2;
+      x.beginPath();
+      x.strokeStyle = `rgba(${l.color},${l.alpha})`;
+      x.lineWidth = 1.5;
+      for (let i = 0; i < steps; i++) {
+        const px = i * 18 - 18;
+        const py = baseY
+          + Math.sin((px + l.t) * 0.018) * l.amp
+          + Math.sin((px + l.t) * 0.006) * l.amp * 0.4
+          + Math.cos((px + l.t) * 0.032) * l.amp * 0.25;
+        i === 0 ? x.moveTo(px, py) : x.lineTo(px, py);
+      }
+      x.stroke();
+    });
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// ── MOUSE SPOTLIGHT ──────────────────────────────────────────────────
+document.addEventListener('mousemove', e => {
+  document.getElementById('spotlight').style.cssText =
+    `--mx:${e.clientX}px;--my:${e.clientY}px`;
+});
+
+// ── SCROLL FADE-IN ───────────────────────────────────────────────────
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.08 });
+document.querySelectorAll('.fade-up, .stagger').forEach(el => obs.observe(el));
+
+// ── FAQ ──────────────────────────────────────────────────────────────
+function toggleFAQ(btn) {
+  const item = btn.closest('.faq-item');
+  const open = item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+  if (!open) item.classList.add('open');
+}
+
+// ── HERO SPARKLINE ───────────────────────────────────────────────────
+(function () {
+  const cv = document.getElementById('hero-sparkline');
+  if (!cv) return;
+  const cx = cv.getContext('2d');
+  cv.width = 400; cv.height = 220;
+  const pts = [0,1.4,3.1,2.2,4.0,5.8,4.5,7.1,8.9,7.3,9.4,11.6,10.2,13.1,15.4,13.8,16.9,19.5,17.8,21.2,23.8];
+  const mn = Math.min(...pts), mx2 = Math.max(...pts), rng = mx2 - mn;
+  const pp = pts.map((v, i) => ({
+    x: i / (pts.length - 1) * cv.width,
+    y: cv.height - ((v - mn) / rng) * cv.height * 0.78 - cv.height * 0.11,
+  }));
+  const g = cx.createLinearGradient(0, 0, 0, cv.height);
+  g.addColorStop(0, 'rgba(245,230,66,0.18)');
+  g.addColorStop(1, 'rgba(245,230,66,0)');
+  cx.beginPath();
+  pp.forEach((p, i) => i === 0 ? cx.moveTo(p.x, p.y) : cx.lineTo(p.x, p.y));
+  cx.lineTo(cv.width, cv.height); cx.lineTo(0, cv.height); cx.closePath();
+  cx.fillStyle = g; cx.fill();
+  cx.beginPath();
+  pp.forEach((p, i) => i === 0 ? cx.moveTo(p.x, p.y) : cx.lineTo(p.x, p.y));
+  cx.strokeStyle = 'rgba(245,230,66,0.55)'; cx.lineWidth = 2; cx.stroke();
+})();
+
+// ── CHART.JS ─────────────────────────────────────────────────────────
 const API = 'https://auto-trade-ro8k.onrender.com';
 let _chart = null;
 
@@ -542,26 +1173,39 @@ function buildChart(rows) {
       labels: rows.map(r => r.trade),
       datasets: [{
         data: rows.map(r => r.pct),
-        borderColor: '#00C853',
+        borderColor: '#F5E642',
         borderWidth: 2,
-        pointBackgroundColor: rows.map(r => r.won ? '#00C853' : '#ff4d4d'),
-        pointBorderColor:     rows.map(r => r.won ? '#00C853' : '#ff4d4d'),
-        pointRadius: 5,
-        pointHoverRadius: 7,
-        tension: 0,
-        fill: { target: 'origin', above: 'rgba(0,200,83,0.06)' },
+        pointBackgroundColor: rows.map(r => r.won ? '#00C853' : '#FF4D4D'),
+        pointBorderColor:     rows.map(r => r.won ? '#00C853' : '#FF4D4D'),
+        pointRadius: 4, pointHoverRadius: 6,
+        tension: 0.1,
+        fill: { target: 'origin', above: 'rgba(245,230,66,0.05)', below: 'rgba(255,77,77,0.04)' },
       }]
     },
     options: {
-      responsive: true,
-      maintainAspectRatio: false,
+      responsive: true, maintainAspectRatio: false,
       plugins: {
         legend: { display: false },
-        tooltip: { callbacks: { label: c => ` ${c.parsed.y.toFixed(2)}%` } }
+        tooltip: {
+          backgroundColor: '#161616', borderColor: '#2A2A2A', borderWidth: 1,
+          titleColor: '#B0B0B0', bodyColor: '#F5E642',
+          callbacks: {
+            title: c => `Trade #${c[0].label}`,
+            label: c => ` ${c.parsed.y >= 0 ? '+' : ''}${c.parsed.y.toFixed(2)}%`,
+          }
+        }
       },
       scales: {
-        x: { title: { display: true, text: 'Trade #', color: '#8b9ab0', font: { size: 11 } }, ticks: { color: '#8b9ab0' }, grid: { color: '#1e2d3d' } },
-        y: { title: { display: true, text: 'Cumulative Return (%)', color: '#8b9ab0', font: { size: 11 } }, ticks: { color: '#8b9ab0', callback: v => v.toFixed(1) + '%' }, grid: { color: '#1e2d3d' } }
+        x: {
+          title: { display: true, text: 'Trade #', color: '#6B6B6B', font: { size: 11 } },
+          ticks: { color: '#6B6B6B', font: { size: 11 } },
+          grid: { color: 'rgba(42,42,42,0.6)' }, border: { color: '#2A2A2A' }
+        },
+        y: {
+          title: { display: true, text: 'Cumulative Return (%)', color: '#6B6B6B', font: { size: 11 } },
+          ticks: { color: '#6B6B6B', font: { size: 11 }, callback: v => (v >= 0 ? '+' : '') + v.toFixed(1) + '%' },
+          grid: { color: 'rgba(42,42,42,0.6)' }, border: { color: '#2A2A2A' }
+        }
       }
     }
   });
@@ -571,22 +1215,20 @@ function buildTable(rows) {
   const tbody = document.getElementById('tbody');
   tbody.innerHTML = '';
   const preview = rows.slice(-10);
-  document.getElementById('view-all-link').textContent = `VIEW ALL ${rows.length} TRADES →`;
+  document.getElementById('view-all-link').textContent = `View All ${rows.length} Trades →`;
   preview.forEach(r => {
     const tr = document.createElement('tr');
     tr.className = r.won ? 'win' : 'loss';
-    const sign  = r.trade_pct >= 0 ? '+' : '';
-    const pctTd = r.won ? 'cyan' : 'red';
-    const resTd = r.won ? 'win-badge' : 'loss-badge';
-    const buy   = r.buy  != null ? '$' + r.buy.toFixed(2)  : '—';
-    const sell  = r.sell != null ? '$' + r.sell.toFixed(2) : '—';
+    const sign = r.trade_pct >= 0 ? '+' : '';
+    const buy  = r.buy  != null ? '$' + r.buy.toFixed(2)  : '—';
+    const sell = r.sell != null ? '$' + r.sell.toFixed(2) : '—';
     tr.innerHTML =
       `<td class="num">${r.trade}</td>` +
       `<td>${r.date || '—'}</td>` +
       `<td class="r hide">${buy}</td>` +
       `<td class="r hide">${sell}</td>` +
-      `<td class="${pctTd}">${sign}${r.trade_pct.toFixed(2)}%</td>` +
-      `<td class="${resTd}">${r.won ? 'WIN' : 'LOSS'}</td>`;
+      `<td class="${r.won ? 'grn' : 'red'}">${sign}${r.trade_pct.toFixed(2)}%</td>` +
+      `<td class="${r.won ? 'win-badge' : 'loss-badge'}"><span>${r.won ? 'WIN' : 'LOSS'}</span></td>`;
     tbody.appendChild(tr);
   });
 }
@@ -595,29 +1237,47 @@ async function load() {
   try {
     const d = await (await fetch(`${API}/public-stats`)).json();
 
+    // Hero
     document.getElementById('hero-sub').textContent =
       `${d.trades} closed trades · ${d.date_range.from} – ${d.date_range.to}`;
 
+    // Floating cards
+    document.getElementById('fc-winrate').textContent = d.win_rate + '%';
+    document.getElementById('fc-pf').textContent      = d.profit_factor;
+    document.getElementById('fc-trades').textContent  = d.trades;
+    document.getElementById('fc-spots').textContent   = d.spots_remaining + ' / 15';
+
+    // Stats strip
     document.getElementById('v-trades').textContent  = d.trades;
     document.getElementById('v-winrate').textContent = d.win_rate + '%';
     document.getElementById('v-pf').textContent      = d.profit_factor;
+    document.getElementById('v-spots').textContent   = d.spots_remaining;
 
+    // Spots CTA
     const s = d.spots_remaining, taken = 15 - s;
     document.getElementById('spots-count').textContent =
       `${s} of 15 spot${s === 1 ? '' : 's'} remaining`;
     document.getElementById('progress-fill').style.width = (taken / 15 * 100) + '%';
 
+    // Summary bar
     document.getElementById('summary').innerHTML =
-      `<span class="c">${d.wins} wins</span> &middot; ` +
-      `<span class="c">${d.losses} losses</span> &middot; ` +
-      `<span class="c">${d.win_rate}% win rate</span> &middot; ` +
-      `<span class="c">profit factor ${d.profit_factor}</span>`;
+      `<div class="sum-item"><span class="acc">${d.wins}</span> wins</div>` +
+      `<div class="sum-item"><span class="acc">${d.losses}</span> losses</div>` +
+      `<div class="sum-item"><span class="acc">${d.win_rate}%</span> win rate</div>` +
+      `<div class="sum-item"><span class="acc">${d.profit_factor}</span> profit factor</div>`;
 
+    // Date note
+    if (d.date_range.from) {
+      document.getElementById('date-range-note').textContent =
+        `${d.date_range.from} – ${d.date_range.to} · Updated hourly`;
+    }
+
+    // Chart + table
     if (d.cumulative_returns.length) {
       buildChart(d.cumulative_returns);
       buildTable(d.cumulative_returns);
     }
-  } catch(e) { console.error(e); }
+  } catch (e) { console.error(e); }
 }
 
 load();
