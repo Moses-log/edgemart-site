@@ -535,6 +535,29 @@
     .btn-large:hover { opacity: .88; animation: none; box-shadow: 0 0 48px var(--aglow); }
     .cancel-note { font-size: 11px; color: var(--dim); margin-top: 14px; }
 
+    /* ── SIGNAL STREAMS ── */
+    .signal-streams { padding: 100px 0; border-top: 1px solid var(--border); }
+    .signal-streams-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px;
+      background: var(--border); border: 1px solid var(--border);
+      margin-top: 56px;
+    }
+    .ss-card {
+      background: var(--bg); padding: 44px 36px;
+      display: flex; flex-direction: column; gap: 14px;
+      transition: background .2s;
+    }
+    .ss-card:hover { background: var(--bg2); }
+    .ss-icon { font-size: 28px; }
+    .ss-who { font-size: 11px; font-weight: 800; letter-spacing: 3px; text-transform: uppercase; }
+    .ss-who.ai    { color: #5865F2; }
+    .ss-who.moses { color: #ED4245; }
+    .ss-who.human { color: var(--accent); }
+    .ss-title { font-size: 18px; font-weight: 800; color: var(--white); line-height: 1.2; }
+    .ss-desc { font-size: 13px; color: var(--muted); line-height: 1.7; }
+    .ss-tag { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--dim); margin-top: auto; padding-top: 10px; }
+    @media (max-width: 740px) { .signal-streams-grid { grid-template-columns: 1fr; } }
+
     /* ── DISCORD CHANNEL TABS ── */
     .discord-tabs { display: flex; gap: 4px; margin-bottom: 12px; }
     .d-tab {
@@ -783,6 +806,7 @@
         </div>
         <div class="hero-trust">
           <div class="trust-item"><span class="dot">✦</span> Live signals, real money</div>
+          <div class="trust-item"><span class="dot">✦</span> AI + human trader alerts</div>
           <div class="trust-item"><span class="dot">✦</span> Nothing hidden</div>
           <div class="trust-item" style="color:var(--accent);font-weight:700"><span class="dot">✦</span> 14-day free trial</div>
         </div>
@@ -1055,6 +1079,40 @@
   </div>
 </section>
 
+<!-- ── SIGNAL STREAMS ─────────────────────────────────────────────────── -->
+<section class="signal-streams">
+  <div class="wrap">
+    <div class="sec-hdr fade-up">
+      <p class="eyebrow">Who's Alerting You</p>
+      <h2>Not just a bot.<br><em>Three signal streams.</em></h2>
+      <p>Every alert in the Discord comes from one of three distinct sources — each transparent about who's posting and why.</p>
+    </div>
+    <div class="signal-streams-grid stagger">
+      <div class="ss-card">
+        <div class="ss-icon">🤖</div>
+        <div class="ss-who ai">Automated · Kimi Bot</div>
+        <div class="ss-title">AI Trading Signals</div>
+        <div class="ss-desc">The Kimi Bot fires the moment an automated SPY trade executes on the owner's live Alpaca account. No delay, no manual input — straight from the algorithm to <code style="color:#5865F2">#kimi-trades</code>.</div>
+        <div class="ss-tag">Real-time · Algo-driven · SPY only</div>
+      </div>
+      <div class="ss-card">
+        <div class="ss-icon">🚨</div>
+        <div class="ss-who moses">Human · Moses (Owner)</div>
+        <div class="ss-title">Moses' Personal Trades</div>
+        <div class="ss-desc">Moses posts his own trades in <code style="color:#ED4245">#moses-alerts</code> — long-term, high-conviction stocks he personally researches, plus occasional swing trades. Every alert includes his entry price, position type, and the thesis behind it. <em style="color:var(--dim);font-style:normal;">Not financial advice.</em></div>
+        <div class="ss-tag">Owner's capital · Research-backed · Long-term focus</div>
+      </div>
+      <div class="ss-card">
+        <div class="ss-icon">🧑‍💼</div>
+        <div class="ss-who human">Human · Community Traders</div>
+        <div class="ss-title">Vetted Investor Alerts</div>
+        <div class="ss-desc">Real people. Real capital. Experienced community members share their own setups, watchlists, and market reads. No paid shills, no anonymous pumpers — vetted contributors with skin in the game.</div>
+        <div class="ss-tag">Community-driven · Transparent · Diverse perspectives</div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ── DISCORD COMMUNITY PREVIEW ─────────────────────────────────────── -->
 <section class="community" id="community">
   <div class="wrap">
@@ -1062,7 +1120,7 @@
       <div class="community-left fade-up">
         <p class="eyebrow">Discord Community</p>
         <h3>A private server built for serious traders.</h3>
-        <p>No noise. No pump-and-dump. Just a focused community of disciplined traders sharing research, signals, and market insights in real time.</p>
+        <p>No noise. No pump-and-dump. A focused community where the <strong style="color:var(--white)">AI bot</strong>, <strong style="color:var(--white)">Moses himself</strong>, and <strong style="color:var(--white)">vetted human traders</strong> all post live alerts — so you're never relying on a single voice.</p>
         <div class="channel-list">
           <div class="ch"><span class="ch-hash">#</span><span>『🔁』kimi-trades</span><span class="ch-live">● LIVE</span></div>
           <div class="ch"><span class="ch-hash">#</span><span>『📈』kimi-investments</span><span class="ch-live">● LIVE</span></div>
@@ -1303,8 +1361,9 @@
 
     <ul class="value-list">
       <li><span class="chk">✓</span><span><strong>Live SPY signals</strong> — every entry and exit, posted in real time</span></li>
+      <li><span class="chk">✓</span><span><strong>Moses' personal trade alerts</strong> — real stocks, real money, full thesis</span></li>
+      <li><span class="chk">✓</span><span><strong>Human investor alerts</strong> — vetted community traders sharing live setups</span></li>
       <li><span class="chk">✓</span><span><strong>AI Portfolio Manager signals</strong> — long-term stock picks with full thesis</span></li>
-      <li><span class="chk">✓</span><span><strong>Quarterly financials charts</strong> — posted with every portfolio trade</span></li>
       <li><span class="chk">✓</span><span><strong>Nothing cut</strong> — wins and losses both posted, exactly as you see above</span></li>
     </ul>
 
