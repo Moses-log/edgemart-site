@@ -537,6 +537,17 @@
     .stagger.visible > *:nth-child(6) { opacity:1; transform:translateY(0); transition-delay:.45s; }
     @media (prefers-reduced-motion: reduce) { .fade-up, .stagger > * { opacity:1; transform:none; transition:none; } }
 
+    /* ── VIEW COUNTER ── */
+    .view-counter {
+      position: fixed; bottom: 18px; left: 18px; z-index: 199;
+      display: none; align-items: center; gap: 6px;
+      background: rgba(16,16,16,0.82); border: 1px solid var(--border);
+      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+      padding: 5px 11px; pointer-events: none;
+      font-size: 10px; color: var(--dim); letter-spacing: 1px;
+    }
+    .view-counter .vc-num { color: var(--muted); font-weight: 700; font-variant-numeric: tabular-nums; }
+
     ::-webkit-scrollbar { width: 4px; }
     ::-webkit-scrollbar-track { background: var(--bg); }
     ::-webkit-scrollbar-thumb { background: var(--border); }
@@ -648,6 +659,9 @@
 
 <canvas id="bg-canvas"></canvas>
 <div id="spotlight"></div>
+<div class="view-counter" id="view-counter">
+  <span>👁</span><span class="vc-num" id="vc-num">—</span>
+</div>
 
 <!-- ── NAV ────────────────────────────────────────────────────────────── -->
 <nav class="nav">
@@ -1528,6 +1542,16 @@ async function loadPmPerformance() {
 }
 
 loadPmPerformance();
+
+// ── VIEW COUNTER ─────────────────────────────────────────────────────────
+(async function() {
+  try {
+    const d = await (await fetch(`${API}/public-visit-count`)).json();
+    if (!d.count) return;
+    document.getElementById('vc-num').textContent = d.count.toLocaleString();
+    document.getElementById('view-counter').style.display = 'flex';
+  } catch(e) {}
+})();
 
 // ── CLICK TRACKING ───────────────────────────────────────────────────────
 document.addEventListener('click', function(e) {
