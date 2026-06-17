@@ -36,7 +36,7 @@
       --loss-bg: rgba(255,77,77,0.05);
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; scroll-padding-top: 100px; }
     body {
       background: var(--bg);
       color: var(--text);
@@ -1575,15 +1575,15 @@ async function loadPmPerformance() {
 
 loadPmPerformance();
 
-// ── VIEW COUNTER ─────────────────────────────────────────────────────────
-(async function() {
+// ── VIEW COUNTER (3-second dwell so bots/crawlers don't inflate count) ───
+setTimeout(async function() {
   try {
     const d = await (await fetch(`${API}/public-visit-count`)).json();
     if (!d.count) return;
     document.getElementById('vc-num').textContent = d.count.toLocaleString();
     document.getElementById('view-counter').style.display = 'flex';
   } catch(e) {}
-})();
+}, 3000);
 
 // ── EARLY ACCESS BANNER DISMISS ──────────────────────────────────────────
 function closeEaBar() {
@@ -1591,6 +1591,7 @@ function closeEaBar() {
   const nav = document.querySelector('.nav');
   if (bar) bar.style.display = 'none';
   if (nav) nav.style.top = '0';
+  document.documentElement.style.scrollPaddingTop = '64px';
 }
 
 // ── CLICK TRACKING ───────────────────────────────────────────────────────
