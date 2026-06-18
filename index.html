@@ -486,7 +486,7 @@
     .faq-icon { color: var(--accent); font-size: 20px; font-weight: 300; flex-shrink: 0; transition: transform .3s; }
     .faq-item.open .faq-icon { transform: rotate(45deg); }
     .faq-a { max-height: 0; overflow: hidden; transition: max-height .4s ease; }
-    .faq-item.open .faq-a { max-height: 400px; }
+    .faq-item.open .faq-a { max-height: 1000px; }
     .faq-a-inner {
       padding: 0 28px 22px;
       font-size: 13px; color: var(--muted); line-height: 1.8;
@@ -639,6 +639,8 @@
     .stagger.visible > *:nth-child(4) { opacity:1; transform:translateY(0); transition-delay:.29s; }
     .stagger.visible > *:nth-child(5) { opacity:1; transform:translateY(0); transition-delay:.37s; }
     .stagger.visible > *:nth-child(6) { opacity:1; transform:translateY(0); transition-delay:.45s; }
+    .stagger.visible > *:nth-child(7) { opacity:1; transform:translateY(0); transition-delay:.53s; }
+    .stagger.visible > *:nth-child(8) { opacity:1; transform:translateY(0); transition-delay:.61s; }
     @media (prefers-reduced-motion: reduce) { .fade-up, .stagger > * { opacity:1; transform:none; transition:none; } }
 
     /* ── VIEW COUNTER ── */
@@ -786,7 +788,7 @@
       <a href="#community">Community</a>
       <a href="trades.html">Trade Log</a>
       <a href="portfolio.html">Portfolio</a>
-      <a href="https://whop.com/kimiinvest/kimi-invest-premium-early-access/" class="nav-cta">Join Now</a>
+      <a href="https://whop.com/kimiinvest/kimi-invest-premium-early-access/" target="_blank" rel="noopener noreferrer" class="nav-cta">Join Now</a>
     </div>
   </div>
 </nav>
@@ -806,7 +808,7 @@
         <p class="hero-live" id="hero-sub">Loading performance data…</p>
         <div class="trial-badge">✦ &nbsp;14-Day Free Trial — Limited Early Access</div>
         <div class="hero-ctas">
-          <a href="https://whop.com/kimiinvest/kimi-invest-premium-early-access/" class="btn-primary">Join the Discord →</a>
+          <a href="https://whop.com/kimiinvest/kimi-invest-premium-early-access/" target="_blank" rel="noopener noreferrer" class="btn-primary">Join the Discord →</a>
           <a href="#performance" class="btn-outline">View Performance</a>
         </div>
         <div class="hero-trust">
@@ -1392,7 +1394,7 @@
       <div class="price-text">then <strong>$14.99</strong> / month</div>
     </div>
 
-    <a href="https://whop.com/kimiinvest/kimi-invest-premium-early-access/" class="btn-large">Join Kimi Invest →</a>
+    <a href="https://whop.com/kimiinvest/kimi-invest-premium-early-access/" target="_blank" rel="noopener noreferrer" class="btn-large">Join Kimi Invest →</a>
     <div class="cancel-note">Cancel anytime. No commitment.</div>
   </div>
 </section>
@@ -1405,7 +1407,7 @@
     <p class="free-discord-sub">
       Join the <strong>free section</strong> of our Discord — no payment, no Whop, no credit card required.<br>
       Browse community discussions, announcements, and market commentary.<br>
-      <span style="color:var(--dim);">Premium signals (<code>#kimi-trades</code>, <code>#kimi-portfolio</code>) are members-only, but you're welcome to explore everything else.</span>
+      <span style="color:var(--dim);">Premium signals (<code>#kimi-trades</code>, <code>#kimi-investments</code>) are members-only, but you're welcome to explore everything else.</span>
     </p>
     <a href="https://discord.gg/E4zK5aWZAH" class="btn-discord" target="_blank" rel="noopener">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M20.317 4.492c-1.53-.69-3.17-1.2-4.885-1.49a.075.075 0 0 0-.079.036c-.21.369-.444.85-.608 1.23a18.566 18.566 0 0 0-5.487 0 12.36 12.36 0 0 0-.617-1.23A.077.077 0 0 0 8.562 3c-1.714.29-3.354.8-4.885 1.491a.07.07 0 0 0-.032.027C.533 9.093-.32 13.555.099 17.961a.08.08 0 0 0 .031.055 20.03 20.03 0 0 0 5.993 2.98.078.078 0 0 0 .084-.026c.462-.62.874-1.275 1.226-1.963.021-.04.001-.088-.041-.104a13.201 13.201 0 0 1-1.872-.878.075.075 0 0 1-.008-.125c.126-.093.252-.19.372-.287a.075.075 0 0 1 .078-.01c3.927 1.764 8.18 1.764 12.061 0a.075.075 0 0 1 .079.009c.12.098.245.195.372.288a.075.075 0 0 1-.006.125c-.598.344-1.22.635-1.873.877a.075.075 0 0 0-.041.105c.36.687.772 1.341 1.225 1.962a.077.077 0 0 0 .084.028 19.963 19.963 0 0 0 6.002-2.981.076.076 0 0 0 .032-.054c.5-5.094-.838-9.52-3.549-13.442a.06.06 0 0 0-.031-.028z"/></svg>
@@ -1442,7 +1444,7 @@
       <a href="trades.html">Trade Log</a>
       <a href="portfolio.html">Portfolio</a>
       <a href="#faq">FAQ</a>
-      <a href="https://whop.com/kimiinvest/kimi-invest-premium-early-access/">Join</a>
+      <a href="https://whop.com/kimiinvest/kimi-invest-premium-early-access/" target="_blank" rel="noopener noreferrer">Join</a>
     </div>
     <div class="footer-legal">
       Past performance ≠ future results. Not financial advice.<br>Trading involves risk of loss.
