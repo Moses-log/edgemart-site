@@ -570,6 +570,8 @@
     .d-tab.active { background: rgba(245,230,66,.08); border-color: rgba(245,230,66,.4); color: var(--accent); }
     .dm-av.moses  { background: #ED4245; color: #fff; font-size: 10px; font-weight: 800; }
     .dm-name.moses { color: #ED4245; }
+    .dm-av.gabe   { background: #57F287; color: #0A0800; font-size: 10px; font-weight: 800; }
+    .dm-name.gabe  { color: #57F287; }
     .dm-disclaimer { font-size: 10px; color: var(--dim); font-style: italic; margin-top: 6px; border-top: 1px solid #2F3136; padding-top: 6px; }
 
     /* ── JOIN STEPS (inside final-cta) ── */
@@ -1066,9 +1068,9 @@
       </div>
       <div class="benefit-card">
         <div class="benefit-icon">🚨</div>
-        <div class="benefit-title">Moses' Personal Trade Alerts</div>
-        <div class="benefit-desc">Moses shares his own trades in <code style="font-size:11px;color:var(--accent);background:rgba(245,230,66,.08);padding:1px 5px;">#moses-alerts</code>. These are long-term, high-conviction positions he personally researches — and occasionally short-term swing trades when the setup is right. Every alert includes his entry, thesis, and position type.</div>
-        <div class="benefit-tag">Owner's personal trades · Research-backed</div>
+        <div class="benefit-title">Co-owner Trade Alerts</div>
+        <div class="benefit-desc">Moses and Gabe each share their own trades — long-term, high-conviction positions they personally research and occasionally swing trades. Moses posts in <code style="font-size:11px;color:var(--accent);background:rgba(245,230,66,.08);padding:1px 5px;">#moses-alerts</code>, Gabe in <code style="font-size:11px;color:#57F287;background:rgba(87,242,135,.08);padding:1px 5px;">#gabe-alerts</code>. Every alert includes entry, thesis, and position type.</div>
+        <div class="benefit-tag">Co-owners' capital · Research-backed</div>
       </div>
       <div class="benefit-card dev">
         <div class="benefit-icon">🧑‍💼</div>
@@ -1098,10 +1100,10 @@
       </div>
       <div class="ss-card">
         <div class="ss-icon">🚨</div>
-        <div class="ss-who moses">Human · Moses (Co-owner)</div>
-        <div class="ss-title">Moses' Personal Trades</div>
-        <div class="ss-desc">Moses posts his own trades in <code style="color:#ED4245">#moses-alerts</code> — long-term, high-conviction stocks he personally researches, plus occasional swing trades. Every alert includes his entry price, position type, and the thesis behind it.</div>
-        <div class="ss-tag">Owner's capital · Research-backed · Long-term focus</div>
+        <div class="ss-who moses">Human · Moses & Gabe (Co-owners)</div>
+        <div class="ss-title">Co-owner Personal Trades</div>
+        <div class="ss-desc">Moses and Gabe each post their own trades — long-term, high-conviction stocks they personally research, plus occasional swing trades. Moses posts in <code style="color:#ED4245">#moses-alerts</code>, Gabe in <code style="color:#57F287">#gabe-alerts</code>. Every alert includes entry price, position type, and the thesis behind it.</div>
+        <div class="ss-tag">Co-owners' capital · Research-backed · Long-term focus</div>
       </div>
       <div class="ss-card" style="opacity:.45;pointer-events:none;">
         <div class="ss-icon">🧑‍💼</div>
@@ -1121,11 +1123,12 @@
       <div class="community-left fade-up">
         <p class="eyebrow">Discord Community</p>
         <h3>A private server built for serious traders.</h3>
-        <p>No noise. No pump-and-dump. A focused community where the <strong style="color:var(--white)">AI bot</strong>, <strong style="color:var(--white)">Moses himself</strong>, and <strong style="color:var(--white)">vetted human traders</strong> all post live alerts — so you're never relying on a single voice.</p>
+        <p>No noise. No pump-and-dump. A focused community where the <strong style="color:var(--white)">AI bot</strong>, <strong style="color:var(--white)">Moses & Gabe</strong>, and <strong style="color:var(--white)">vetted community traders</strong> all post live alerts — so you're never relying on a single voice.</p>
         <div class="channel-list">
           <div class="ch"><span class="ch-hash">#</span><span>『🔁』kimi-trades</span><span class="ch-live">● LIVE</span></div>
           <div class="ch"><span class="ch-hash">#</span><span>『📈』kimi-investments</span><span class="ch-live">● LIVE</span></div>
           <div class="ch"><span class="ch-hash">#</span><span>『🚨』moses-alerts</span><span class="ch-live">● LIVE</span></div>
+          <div class="ch"><span class="ch-hash">#</span><span>『🚨』gabe-alerts</span><span class="ch-live">● LIVE</span></div>
           <div class="ch"><span class="ch-hash">#</span><span>『💬』premium-general</span><span class="ch-live">● LIVE</span></div>
           <div class="ch ch-dev"><span class="ch-hash">#</span><span>market-research</span><span class="ch-wip">◆ IN DEVELOPMENT</span></div>
           <div class="ch ch-dev"><span class="ch-hash">#</span><span>earnings-analysis</span><span class="ch-wip">◆ IN DEVELOPMENT</span></div>
@@ -1137,6 +1140,7 @@
         <div class="discord-tabs">
           <button class="d-tab active" onclick="switchDiscordTab('kimi-trades',this)">🔁 kimi-trades</button>
           <button class="d-tab" onclick="switchDiscordTab('moses-alerts',this)">🚨 moses-alerts</button>
+          <button class="d-tab" onclick="switchDiscordTab('gabe-alerts',this)">🚨 gabe-alerts</button>
         </div>
 
         <!-- kimi-trades mock -->
@@ -1200,6 +1204,39 @@
                   @ <span class="y">$312.10</span><br>
                   Type: Swing trade | 1–2 week hold<br>
                   Watching for breakout above $320 resistance. Will update when I exit.<br>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- gabe-alerts mock -->
+        <div class="discord-mock" id="dt-gabe-alerts" style="display:none">
+          <div class="discord-top">
+            <span class="d-hash">#</span>
+            <span class="d-ch-name">『🚨』gabe-alerts</span>
+          </div>
+          <div class="discord-msgs">
+            <div class="dm">
+              <div class="dm-av gabe">G</div>
+              <div>
+                <div class="dm-hdr"><span class="dm-name gabe">Gabe</span><span class="dm-time">Today at 11:08 AM</span></div>
+                <div class="dm-txt">
+                  🚨 <strong style="color:#fff">ADDING POSITION — AAPL</strong><br>
+                  @ <span class="y">$211.30</span><br>
+                  Type: Long-term | High conviction<br>
+                  Thesis: Services revenue compounding + buyback machine. Adding on this pullback into $210 support.
+                </div>
+              </div>
+            </div>
+            <div class="dm">
+              <div class="dm-av gabe">G</div>
+              <div>
+                <div class="dm-hdr"><span class="dm-name gabe">Gabe</span><span class="dm-time">Today at 3:42 PM</span></div>
+                <div class="dm-txt">
+                  📋 <strong style="color:#fff">WATCHING — META</strong><br>
+                  @ <span class="y">$628.50</span><br>
+                  Type: Swing setup | Waiting for breakout<br>
+                  Watching for clean break above $635. Will post entry if it triggers.
                 </div>
               </div>
             </div>
@@ -1308,7 +1345,7 @@
 
     <ul class="value-list">
       <li><span class="chk">✓</span><span><strong>Live SPY signals</strong> — every entry and exit, posted in real time</span></li>
-      <li><span class="chk">✓</span><span><strong>Moses' personal trade alerts</strong> — real stocks, real money, full thesis</span></li>
+      <li><span class="chk">✓</span><span><strong>Moses & Gabe's trade alerts</strong> — real stocks, real money, full thesis</span></li>
       <li><span class="chk">✓</span><span><strong>Human investor alerts</strong> — vetted community traders sharing live setups</span></li>
       <li><span class="chk">✓</span><span><strong>AI Portfolio Manager signals</strong> — long-term stock picks with full thesis</span></li>
       <li><span class="chk">✓</span><span><strong>Nothing cut</strong> — wins and losses both posted, exactly as you see above</span></li>
