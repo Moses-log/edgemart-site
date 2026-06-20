@@ -674,6 +674,67 @@
     ::-webkit-scrollbar-track { background: var(--bg); }
     ::-webkit-scrollbar-thumb { background: var(--border); }
 
+    /* ── HERO PRICE NOTE ── */
+    .hero-price-note {
+      font-size: 11px; color: var(--dim); margin-top: -36px; margin-bottom: 36px;
+      letter-spacing: 0.3px;
+    }
+
+    /* ── AI SCORING TABLE ── */
+    .ai-scores { margin-top: 22px; border-top: 1px solid var(--border); padding-top: 18px; }
+    .ai-scores-label { font-size: 9px; font-weight: 700; letter-spacing: 3px; color: var(--dim); text-transform: uppercase; margin-bottom: 14px; }
+    .ai-score-row { display: flex; align-items: center; gap: 10px; margin-bottom: 9px; }
+    .ai-score-name { font-size: 11px; color: var(--muted); width: 130px; flex-shrink: 0; }
+    .ai-score-track { flex: 1; height: 4px; background: var(--bg3); border: 1px solid var(--border); overflow: hidden; }
+    .ai-score-fill { height: 100%; background: var(--accent); }
+    .ai-score-pct { font-size: 11px; font-weight: 700; color: var(--accent); width: 32px; text-align: right; flex-shrink: 0; }
+
+    /* ── CHANNEL BADGES ── */
+    .ch-badge {
+      margin-left: auto; font-size: 9px; font-weight: 800; letter-spacing: 1.5px;
+      padding: 2px 8px; text-transform: uppercase;
+    }
+    .ch-badge.premium { background: rgba(245,230,66,.1); color: var(--accent); border: 1px solid rgba(245,230,66,.25); }
+    .ch-badge.free    { background: rgba(0,200,83,.08); color: var(--green); border: 1px solid rgba(0,200,83,.2); }
+
+    /* ── TIER COMPARISON ── */
+    .tier-compare {
+      padding: 100px 0; border-top: 1px solid var(--border);
+      background: var(--bg2);
+    }
+    .tier-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin-top: 48px;
+    }
+    @media (max-width: 640px) { .tier-grid { grid-template-columns: 1fr; } }
+    .tier-card {
+      background: var(--bg); border: 1px solid var(--border); padding: 36px 32px;
+    }
+    .tier-card.prem { border-color: rgba(245,230,66,.3); position: relative; overflow: hidden; }
+    .tier-card.prem::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    }
+    .tier-label { font-size: 9px; font-weight: 800; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 10px; }
+    .tier-label.f { color: var(--muted); }
+    .tier-label.p { color: var(--accent); }
+    .tier-price { font-size: 28px; font-weight: 900; color: var(--white); letter-spacing: -1px; margin-bottom: 6px; }
+    .tier-price-sub { font-size: 11px; color: var(--dim); margin-bottom: 28px; }
+    .tier-rows { display: flex; flex-direction: column; gap: 11px; }
+    .tier-row { display: flex; align-items: flex-start; gap: 11px; font-size: 13px; color: var(--muted); line-height: 1.4; }
+    .tier-check { flex-shrink: 0; margin-top: 1px; }
+    .tier-check.y { color: var(--accent); font-weight: 700; }
+    .tier-check.g { color: var(--green); font-weight: 700; }
+    .tier-cta { margin-top: 32px; }
+
+    /* ── SCAMMER WARNING ── */
+    .scammer-warn {
+      max-width: 540px; margin: 0 auto 40px;
+      background: rgba(255,77,77,.05); border: 1px solid rgba(255,77,77,.25);
+      padding: 18px 24px;
+    }
+    .scammer-warn-title { font-size: 10px; font-weight: 800; letter-spacing: 3px; color: var(--red); text-transform: uppercase; margin-bottom: 8px; }
+    .scammer-warn-body  { font-size: 12px; color: var(--muted); line-height: 1.75; }
+
     /* ── IN DEVELOPMENT states ── */
     .ch-dev { opacity: .45; pointer-events: none; }
     .ch-wip { margin-left: auto; font-size: 9px; font-weight: 700; letter-spacing: 1px; color: var(--accent); }
@@ -805,7 +866,7 @@
       /* ── Section vertical padding ── */
       .performance, .benefits, .ai-section, .education,
       .community, .research, .signal-streams, .track-record,
-      .faq, .how-join, .free-discord { padding-top: 64px; padding-bottom: 64px; }
+      .faq, .how-join, .free-discord, .tier-compare { padding-top: 64px; padding-bottom: 64px; }
       .final-cta           { padding: 72px 0 60px; }
       .disclaimer          { padding: 48px 0; }
 
@@ -907,6 +968,17 @@
       /* ── Free Discord section ── */
       .btn-discord         { padding: 16px 32px; font-size: 12px; letter-spacing: 1.5px; }
 
+      /* ── Tier comparison ── */
+      .tier-compare        { padding-top: 64px; padding-bottom: 64px; }
+      .tier-card           { padding: 28px 20px; }
+      .tier-price          { font-size: 24px; }
+      .tier-row            { font-size: 12px; }
+      .hero-price-note     { font-size: 10px; }
+
+      /* ── Scammer warning ── */
+      .scammer-warn        { padding: 16px 18px; }
+      .scammer-warn-body   { font-size: 11px; }
+
       /* ── Footer ── */
       .footer-inner        { padding: 0 16px; gap: 14px; }
       .footer-links        { flex-wrap: wrap; justify-content: center; gap: 12px; }
@@ -969,9 +1041,10 @@
         <p class="hero-live" id="hero-sub">Loading performance data…</p>
         <div class="trial-badge">✦ &nbsp;14-Day Free Trial — Limited Early Access</div>
         <div class="hero-ctas">
-          <a href="https://whop.com/kimiinvest/kimi-invest-premium-early-access/" target="_blank" rel="noopener noreferrer" class="btn-primary">Join the Discord →</a>
+          <a href="https://whop.com/kimiinvest/kimi-invest-premium-early-access/" target="_blank" rel="noopener noreferrer" class="btn-primary">Start Free Trial →</a>
           <a href="#performance" class="btn-outline">View Performance</a>
         </div>
+        <p class="hero-price-note">14 days free · then $14.99/mo · cancel anytime</p>
         <div class="hero-trust">
           <div class="trust-item"><span class="dot">✦</span> Live signals, real money</div>
           <div class="trust-item"><span class="dot">✦</span> AI + human trader alerts</div>
@@ -1114,6 +1187,34 @@
             No human intervenes between decision and execution.
             <span class="hl">The signal you see is the trade.</span>
           </p>
+          <div class="ai-scores">
+            <div class="ai-scores-label">How it scores every stock</div>
+            <div class="ai-score-row">
+              <div class="ai-score-name">Growth</div>
+              <div class="ai-score-track"><div class="ai-score-fill" style="width:25%"></div></div>
+              <div class="ai-score-pct">25%</div>
+            </div>
+            <div class="ai-score-row">
+              <div class="ai-score-name">Future Dominance</div>
+              <div class="ai-score-track"><div class="ai-score-fill" style="width:25%"></div></div>
+              <div class="ai-score-pct">25%</div>
+            </div>
+            <div class="ai-score-row">
+              <div class="ai-score-name">Quality</div>
+              <div class="ai-score-track"><div class="ai-score-fill" style="width:20%"></div></div>
+              <div class="ai-score-pct">20%</div>
+            </div>
+            <div class="ai-score-row">
+              <div class="ai-score-name">Momentum</div>
+              <div class="ai-score-track"><div class="ai-score-fill" style="width:15%"></div></div>
+              <div class="ai-score-pct">15%</div>
+            </div>
+            <div class="ai-score-row">
+              <div class="ai-score-name">Valuation</div>
+              <div class="ai-score-track"><div class="ai-score-fill" style="width:15%"></div></div>
+              <div class="ai-score-pct">15%</div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -1303,15 +1404,16 @@
         <h3>Where serious investors talk shop.</h3>
         <p>Drop your watchlist. Share your thesis. Get a debate going. The <strong style="color:var(--white)">AI bot</strong>, <strong style="color:var(--white)">Moses & Gabe</strong>, and members all post and discuss in real time — so you're building conviction together, not just consuming signals alone.</p>
         <div class="channel-list">
-          <div class="ch"><span class="ch-hash">#</span><span>『🔁』kimi-trades</span><span class="ch-live">● LIVE</span></div>
-          <div class="ch"><span class="ch-hash">#</span><span>『📈』kimi-investments</span><span class="ch-live">● LIVE</span></div>
-          <div class="ch"><span class="ch-hash">#</span><span>『📈』yabe-investments</span><span class="ch-live">● LIVE</span></div>
-          <div class="ch"><span class="ch-hash">#</span><span>『🚨』moses-alerts</span><span class="ch-live">● LIVE</span></div>
-          <div class="ch"><span class="ch-hash">#</span><span>『🚨』gabe-alerts</span><span class="ch-live">● LIVE</span></div>
-          <div class="ch"><span class="ch-hash">#</span><span>『💬』premium-general</span><span class="ch-live">● LIVE</span></div>
+          <div class="ch"><span class="ch-hash">#</span><span>『🔁』kimi-trades</span><span class="ch-badge premium">PREMIUM</span></div>
+          <div class="ch"><span class="ch-hash">#</span><span>『📈』kimi-investments</span><span class="ch-badge premium">PREMIUM</span></div>
+          <div class="ch"><span class="ch-hash">#</span><span>『📈』yabe-investments</span><span class="ch-badge premium">PREMIUM</span></div>
+          <div class="ch"><span class="ch-hash">#</span><span>『🚨』moses-alerts</span><span class="ch-badge premium">PREMIUM</span></div>
+          <div class="ch"><span class="ch-hash">#</span><span>『🚨』gabe-alerts</span><span class="ch-badge premium">PREMIUM</span></div>
+          <div class="ch"><span class="ch-hash">#</span><span>『💬』premium-general</span><span class="ch-badge premium">PREMIUM</span></div>
+          <div class="ch"><span class="ch-hash">#</span><span>『📢』announcements</span><span class="ch-badge free">FREE</span></div>
+          <div class="ch"><span class="ch-hash">#</span><span>『💬』general</span><span class="ch-badge free">FREE</span></div>
           <div class="ch ch-dev"><span class="ch-hash">#</span><span>market-research</span><span class="ch-wip">◆ IN DEVELOPMENT</span></div>
           <div class="ch ch-dev"><span class="ch-hash">#</span><span>earnings-analysis</span><span class="ch-wip">◆ IN DEVELOPMENT</span></div>
-          <div class="ch ch-dev"><span class="ch-hash">#</span><span>education-resources</span><span class="ch-wip">◆ IN DEVELOPMENT</span></div>
         </div>
       </div>
 
@@ -1612,6 +1714,57 @@
   </div>
 </section>
 
+<!-- ── TIER COMPARISON ───────────────────────────────────────────────────── -->
+<section class="tier-compare" id="pricing">
+  <div class="wrap--sm">
+    <div class="sec-hdr fade-up">
+      <p class="eyebrow">Membership</p>
+      <h2>Free or Premium.<br><em>You choose.</em></h2>
+    </div>
+    <div class="tier-grid fade-up">
+      <div class="tier-card">
+        <div class="tier-label f">Free</div>
+        <div class="tier-price">$0</div>
+        <div class="tier-price-sub">Forever free · No credit card</div>
+        <div class="tier-rows">
+          <div class="tier-row"><span class="tier-check g">✓</span><span>Access to <code style="color:var(--green);font-size:11px;background:rgba(0,200,83,.08);padding:1px 5px">#general</code> community chat</span></div>
+          <div class="tier-row"><span class="tier-check g">✓</span><span>Server announcements &amp; updates</span></div>
+          <div class="tier-row"><span class="tier-check g">✓</span><span>Market commentary from members</span></div>
+          <div class="tier-row" style="color:var(--dim)"><span style="color:var(--border);font-weight:700">✕</span><span>Live SPY trading signals</span></div>
+          <div class="tier-row" style="color:var(--dim)"><span style="color:var(--border);font-weight:700">✕</span><span>AI Portfolio Manager signals</span></div>
+          <div class="tier-row" style="color:var(--dim)"><span style="color:var(--border);font-weight:700">✕</span><span>Moses &amp; Gabe personal trade alerts</span></div>
+          <div class="tier-row" style="color:var(--dim)"><span style="color:var(--border);font-weight:700">✕</span><span>Politician insider trade alerts</span></div>
+          <div class="tier-row" style="color:var(--dim)"><span style="color:var(--border);font-weight:700">✕</span><span>Premium member discussions</span></div>
+        </div>
+        <div class="tier-cta">
+          <a href="https://discord.gg/E4zK5aWZAH" target="_blank" rel="noopener" class="btn-discord" style="padding:14px 28px;font-size:12px;letter-spacing:1.5px;border-radius:2px;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M20.317 4.492c-1.53-.69-3.17-1.2-4.885-1.49a.075.075 0 0 0-.079.036c-.21.369-.444.85-.608 1.23a18.566 18.566 0 0 0-5.487 0 12.36 12.36 0 0 0-.617-1.23A.077.077 0 0 0 8.562 3c-1.714.29-3.354.8-4.885 1.491a.07.07 0 0 0-.032.027C.533 9.093-.32 13.555.099 17.961a.08.08 0 0 0 .031.055 20.03 20.03 0 0 0 5.993 2.98.078.078 0 0 0 .084-.026c.462-.62.874-1.275 1.226-1.963.021-.04.001-.088-.041-.104a13.201 13.201 0 0 1-1.872-.878.075.075 0 0 1-.008-.125c.126-.093.252-.19.372-.287a.075.075 0 0 1 .078-.01c3.927 1.764 8.18 1.764 12.061 0a.075.075 0 0 1 .079.009c.12.098.245.195.372.288a.075.075 0 0 1-.006.125c-.598.344-1.22.635-1.873.877a.075.075 0 0 0-.041.105c.36.687.772 1.341 1.225 1.962a.077.077 0 0 0 .084.028 19.963 19.963 0 0 0 6.002-2.981.076.076 0 0 0 .032-.054c.5-5.094-.838-9.52-3.549-13.442a.06.06 0 0 0-.031-.028z"/></svg>
+            Join Free
+          </a>
+        </div>
+      </div>
+      <div class="tier-card prem">
+        <div class="tier-label p">Premium</div>
+        <div class="tier-price">$14.99<span style="font-size:16px;font-weight:500;color:var(--muted)">/mo</span></div>
+        <div class="tier-price-sub">14-day free trial · Cancel anytime</div>
+        <div class="tier-rows">
+          <div class="tier-row"><span class="tier-check g">✓</span><span>Everything in Free</span></div>
+          <div class="tier-row"><span class="tier-check y">✓</span><span><strong style="color:var(--white)">Live SPY signals</strong> — <code style="color:var(--accent);font-size:11px;background:rgba(245,230,66,.08);padding:1px 5px">#kimi-trades</code></span></div>
+          <div class="tier-row"><span class="tier-check y">✓</span><span><strong style="color:var(--white)">AI Portfolio Manager</strong> — <code style="color:var(--accent);font-size:11px;background:rgba(245,230,66,.08);padding:1px 5px">#kimi-investments</code></span></div>
+          <div class="tier-row"><span class="tier-check y">✓</span><span><strong style="color:var(--white)">Moses &amp; Gabe alerts</strong> — entries, thesis, position type</span></div>
+          <div class="tier-row"><span class="tier-check y">✓</span><span><strong style="color:var(--white)">Politician trade tracker</strong> — <code style="color:var(--accent);font-size:11px;background:rgba(245,230,66,.08);padding:1px 5px">#yabe-investments</code></span></div>
+          <div class="tier-row"><span class="tier-check y">✓</span><span><strong style="color:var(--white)">Premium general</strong> — members-only discussion</span></div>
+          <div class="tier-row"><span class="tier-check y">✓</span><span>Monthly portfolio review &amp; rebalance signals</span></div>
+          <div class="tier-row"><span class="tier-check y">✓</span><span>Full trade history &amp; P&amp;L transparency</span></div>
+        </div>
+        <div class="tier-cta">
+          <a href="https://whop.com/kimiinvest/kimi-invest-premium-early-access/" target="_blank" rel="noopener noreferrer" class="btn-large" style="padding:16px 40px;font-size:12px;letter-spacing:2px;">Start Free Trial →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ── FREE DISCORD ─────────────────────────────────────────────────────── -->
 <section class="free-discord" id="free-discord">
   <div class="wrap--sm">
@@ -1627,6 +1780,14 @@
       Join Free on Discord
     </a>
     <p class="free-discord-note">Free forever. Upgrade to premium anytime.</p>
+    <div class="scammer-warn" style="margin-top:48px;text-align:left;">
+      <div class="scammer-warn-title">⚠️ Scammer Warning</div>
+      <div class="scammer-warn-body">
+        We will <strong style="color:var(--white)">never</strong> DM you first. We will never ask for your money, login credentials, or personal information through Discord.<br><br>
+        If anyone reaches out claiming to be Moses, Gabe, or anyone from Kimi Invest — offering private signals, account management, or guaranteed returns — it's a scammer. <strong style="color:var(--white)">Report and block immediately.</strong><br><br>
+        All official announcements come through this server only.
+      </div>
+    </div>
   </div>
 </section>
 
@@ -1827,7 +1988,7 @@ async function load() {
 
     // Hero
     document.getElementById('hero-sub').textContent =
-      `${d.trades} closed trades · ${d.date_range.from} – ${d.date_range.to}`;
+      `${d.win_rate}% win rate · ${d.trades} closed trades · live on Alpaca`;
 
     // Floating cards
     document.getElementById('fc-winrate').textContent = d.win_rate + '%';
