@@ -394,7 +394,11 @@
     .signal-card.dd    { border-bottom: 2px solid rgba(245,230,66,.35); }
     .signal-card.trim  { border-bottom: 2px solid rgba(255,160,50,.35); }
     .signal-card.sell  { border-bottom: 2px solid rgba(255,77,77,.35); }
-    .sig-icon { font-size: 20px; margin-bottom: 10px; }
+    .sig-icon { margin-bottom: 10px; }
+    .signal-card.buy .sig-icon  { color: var(--green); }
+    .signal-card.dd .sig-icon   { color: var(--accent); }
+    .signal-card.trim .sig-icon { color: #FFA032; }
+    .signal-card.sell .sig-icon { color: var(--red); }
     .sig-name { font-size: 10px; font-weight: 800; letter-spacing: 2px; color: var(--white); text-transform: uppercase; margin-bottom: 7px; }
     .sig-desc { font-size: 12px; color: var(--muted); line-height: 1.6; }
 
@@ -1247,22 +1251,22 @@
       <div class="fade-up">
         <div class="signal-grid">
           <div class="signal-card buy">
-            <div class="sig-icon">🟢</div>
+            <div class="sig-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><circle cx="12" cy="12" r="9"/><polyline points="8 12.5 11 15.5 16 9"/></svg></div>
             <div class="sig-name">Buy</div>
             <div class="sig-desc">Kimi opens a new long-term position in a high-conviction stock.</div>
           </div>
           <div class="signal-card dd">
-            <div class="sig-icon">🔥</div>
+            <div class="sig-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><path d="M12 21c3.3 0 6-2.5 6-6 0-2.8-1.6-4.3-3-6.5.3 1.8-.5 3-1.7 2.6.7-2.6-.6-5.4-3-7.1.2 2.4-1 4-2.5 5.6C6.4 11.1 6 13 6 15c0 3.5 2.7 6 6 6z"/></svg></div>
             <div class="sig-name">Double Down</div>
             <div class="sig-desc">Kimi adds to an existing position — the thesis just got stronger.</div>
           </div>
           <div class="signal-card trim">
-            <div class="sig-icon">✂️</div>
+            <div class="sig-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><circle cx="6" cy="6" r="2.5"/><circle cx="6" cy="18" r="2.5"/><line x1="8" y1="7.5" x2="20" y2="17"/><line x1="8" y1="16.5" x2="20" y2="7"/></svg></div>
             <div class="sig-name">Trim</div>
             <div class="sig-desc">Kimi scales back a position that has outgrown its target weight.</div>
           </div>
           <div class="signal-card sell">
-            <div class="sig-icon">🔴</div>
+            <div class="sig-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><circle cx="12" cy="12" r="9"/><line x1="9" y1="9" x2="15" y2="15"/><line x1="15" y1="9" x2="9" y2="15"/></svg></div>
             <div class="sig-name">Sell</div>
             <div class="sig-desc">Kimi exits a position fully — thesis broken or target reached.</div>
           </div>
