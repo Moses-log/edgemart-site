@@ -457,6 +457,7 @@
     /* ── COMMUNITY / DISCORD ── */
     .community { padding: 110px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
     .community-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: center; }
+    .community-inner > * { min-width: 0; }
     @media (max-width: 860px) { .community-inner { grid-template-columns: 1fr; gap: 44px; } }
     .community-left h3 { font-size: 30px; font-weight: 800; letter-spacing: -1px; color: var(--white); line-height: 1.2; margin-bottom: 16px; }
     .community-left p  { font-size: 14px; color: var(--muted); line-height: 1.75; margin-bottom: 28px; }
@@ -1373,11 +1374,11 @@
         <div class="benefit-desc">The Yabe Signals — built by Gabe — monitors every congressional and senate stock disclosure and fires an alert to <code style="font-size:11px;color:#57F287;background:rgba(87,242,135,.08);padding:1px 5px;">#yabe-investments</code> the moment it's filed. Politicians trade on information the market doesn't have yet. Now you see it when they do.</div>
         <div class="benefit-tag">Automated · Congress & Senate · Live disclosures</div>
       </div>
-      <div class="benefit-card dev" style="opacity:.35;filter:grayscale(.4);pointer-events:none;">
+      <div class="benefit-card">
         <div class="benefit-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="22" height="22"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c0-3.9 3.1-7 7-7s7 3.1 7 7"/></svg></div>
-        <div class="benefit-title">Human Investor Alerts</div>
+        <div class="benefit-title">Vetted Investor Alerts</div>
         <div class="benefit-desc">Real people. Real capital. Vetted community contributors share their own trade setups, watchlists, and market reads — not bots, not paid shills. See how experienced investors think through a position from entry to exit.</div>
-        <div class="dev-badge">◆ In Development</div>
+        <div class="benefit-tag">Real capital · Vetted contributor · Live now</div>
       </div>
     </div>
   </div>
@@ -1388,8 +1389,8 @@
   <div class="wrap">
     <div class="sec-hdr fade-up">
       <p class="eyebrow">Who's Alerting You</p>
-      <h2>Not just a bot.<br><em>Three signal streams.</em></h2>
-      <p>Every alert in the Discord comes from one of three distinct sources — each transparent about who's posting and why.</p>
+      <h2>Not just a bot.<br><em>Four signal streams.</em></h2>
+      <p>Every alert in the Discord comes from one of four distinct sources — each transparent about who's posting and why.</p>
     </div>
     <div class="signal-streams-grid stagger">
       <div class="ss-card">
@@ -1413,12 +1414,12 @@
         <div class="ss-desc">Built by Gabe, the Yabe Signals monitors congressional and senate trading disclosures and posts every politician trade to <code style="color:#57F287">#yabe-investments</code> the moment it's filed. Politicians trade with information the market doesn't have yet — now you see it when they do.</div>
         <div class="ss-tag">Congress & Senate · Disclosure-based · Live</div>
       </div>
-      <div class="ss-card" style="opacity:.45;pointer-events:none;">
-        <div class="ss-icon" style="color:var(--dim)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="26" height="26"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c0-3.9 3.1-7 7-7s7 3.1 7 7"/></svg></div>
-        <div class="ss-who" style="color:var(--dim)">Human · Community Traders</div>
-        <div class="ss-title" style="color:var(--muted)">Vetted Investor Alerts</div>
+      <div class="ss-card">
+        <div class="ss-icon" style="color:var(--accent)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="26" height="26"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c0-3.9 3.1-7 7-7s7 3.1 7 7"/></svg></div>
+        <div class="ss-who human">Human · Community Traders</div>
+        <div class="ss-title">Vetted Investor Alerts</div>
         <div class="ss-desc">Real people. Real capital. Experienced community members share their own setups, watchlists, and market reads. No paid shills, no anonymous pumpers — vetted contributors with skin in the game.</div>
-        <div class="ss-tag" style="color:var(--accent);letter-spacing:2px;">◆ IN DEVELOPMENT</div>
+        <div class="ss-tag">Community capital · Vetted · Live now</div>
       </div>
     </div>
   </div>
@@ -1431,7 +1432,7 @@
       <div class="community-left fade-up">
         <p class="eyebrow">Discord Community</p>
         <h3>Where serious investors talk shop.</h3>
-        <p>Drop your watchlist. Share your thesis. Get a debate going. The <strong style="color:var(--white)">AI bot</strong>, <strong style="color:var(--white)">Moses & Gabe</strong>, and members all post and discuss in real time — so you're building conviction together, not just consuming signals alone.</p>
+        <p>Drop your watchlist. Share your thesis. Get a debate going. The <strong style="color:var(--white)">AI bot</strong>, <strong style="color:var(--white)">Moses & Gabe</strong>, <strong style="color:var(--white)">vetted human investors</strong>, and members all post and discuss in real time — so you're building conviction together, not just consuming signals alone.</p>
         <div class="discord-sidebar">
           <div class="ch-cat">
             <span class="ch-cat-label"><span class="chev">▾</span> Premium Alerts</span>
